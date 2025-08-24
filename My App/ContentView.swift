@@ -20,7 +20,7 @@ struct ContentView: View {
                         .background(Color.gray.opacity(0.2))
                         .cornerRadius(10)
                     
-                    Text("Daily Health Tip")
+                    Text("Health Tip of the Day")
                         .font(.title2)
                         .fontWeight(.bold)
                     Text("Did you know? The HPV vaccine can prevent 90% of cervical cancers.")
@@ -29,7 +29,7 @@ struct ContentView: View {
                         .cornerRadius(10)
                     
 
-                    Text("Daily Cybersecurity Tip")
+                    Text("Cybersecurity Tip of the Day")
                         .font(.title2)
                         .bold()
                     Text("Never post your vaccine card or appointment screenshot online.")
