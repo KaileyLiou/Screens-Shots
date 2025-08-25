@@ -55,7 +55,7 @@ struct ContentView: View {
                     
                 } // end of vstack
                 .padding()
-                .navigationTitle("Screen+Secure")
+                .navigationTitle("SecureScreening")
                 
                 List(reminders) { reminder in
                     VStack(alignment: .leading) {
