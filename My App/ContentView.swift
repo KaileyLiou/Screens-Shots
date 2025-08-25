@@ -16,62 +16,45 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Next Reminder")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    if let next = nextReminder {
-                        Text("\(next.title) – \(next.date.formatted(date: .long, time: .omitted))")
+        TabView {
+            NavigationStack {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("Next Reminder")
+                            .font(.title2)
+                            .bold()
+                        
+                        if let next = nextReminder {
+                            Text("\(next.title) – \(next.date.formatted(date: .long, time: .omitted))")
+                                .padding()
+                                .background(Color.gray.opacity(0.2))
+                                .cornerRadius(10)
+                        } else {
+                            Text("No reminders yet.")
+                                .padding()
+                                .background(Color.gray.opacity(0.2))
+                                .cornerRadius(10)
+                        }
+                        
+                        Text("Health Tip of the Day")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        Text("Did you know? The HPV vaccine can prevent 90% of cervical cancers.")
                             .padding()
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(10)
-                    } else {
-                        Text("No reminders yet.")
+                        
+                        Text("Cybersecurity Tip of the Day")
+                            .font(.title2)
+                            .bold()
+                        Text("Never post your vaccine card or appointment screenshot online.")
                             .padding()
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(10)
-                    }
-                    
-                    Text("Health Tip of the Day")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    Text("Did you know? The HPV vaccine can prevent 90% of cervical cancers.")
-                        .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
-                    
-
-                    Text("Cybersecurity Tip of the Day")
-                        .font(.title2)
-                        .bold()
-                    Text("Never post your vaccine card or appointment screenshot online.")
-                        .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
-                    
-                    Spacer()
-                    
-                } // end of vstack
-                .padding()
+                    } // end of vstack
+                    .padding()
+                } // end of scrollview
                 .navigationTitle("SecureScreening")
-                
-                List(reminders) { reminder in
-                    VStack(alignment: .leading) {
-                        Text(reminder.title)
-                            .font(.headline)
-                        Text(reminder.date.formatted(date: .long, time: .omitted))
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                        Text(reminder.type)
-                            .font(.caption)
-                            .foregroundColor(.blue)
-                    }
-                    .padding(.vertical, 4)
-                    .navigationTitle("My Reminders")
-                }
-                
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
@@ -82,11 +65,20 @@ struct ContentView: View {
                     }
                 }
                 
-                .sheet(isPresented: $showAddReminderView) {
-                    AddReminderView(reminders: $reminders)
+            } // end of tab view
+            .tabItem {
+                Label("Home", systemImage: "house")
+            }
+            
+            AllRemindersView(reminders: $reminders)
+                .tabItem {
+                    Label("Reminders", systemImage: "list.bullet")
                 }
-            } // end of scrollview
+            
         } // end of nav stack
+        .sheet(isPresented: $showAddReminderView) {
+            AddReminderView(reminders: $reminders)
+        }
 
     }
 }

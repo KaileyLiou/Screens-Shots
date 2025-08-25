@@ -30,6 +30,11 @@ struct AllRemindersView: View {
     }
 }
 
-#Preview {
-    AllRemindersView()
+struct HomeView_Previews: PreviewProvider {
+    @State static var sampleReminders: [Reminder] = []
+    @State static var showAdd: Bool = false
+
+    static var previews: some View {
+        HomeView(reminders: $sampleReminders, showAddReminderView: $showAdd)
+    }
 }
