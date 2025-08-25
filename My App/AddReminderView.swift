@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddReminderView: View {
     @Binding var reminders : [Reminder]
-    @Environment(.\dismiss) var dismiss
+    @Environment(\.dismiss) var dismiss
     @State private var title = ""
     @State private var date = Date()
     @State private var type = "Vaccine"
@@ -28,7 +28,9 @@ struct AddReminderView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 
                 Button("Save Reminder") {
-                    print("Saved Reminder")
+                    let newReminder = Reminder(title: title, date: date, type: type)
+                    reminders.append(newReminder)
+                    dismiss()
                 }
                 
             }
@@ -38,5 +40,5 @@ struct AddReminderView: View {
 }
 
 #Preview {
-    AddReminderView()
+    AddReminderView(reminders: .constant([]))
 }

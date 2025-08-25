@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var reminders: [Reminder] = []
+    @State private var showAddReminderView: Bool = false
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -42,6 +45,21 @@ struct ContentView: View {
                 } // end of vstack
                 .padding()
                 .navigationTitle("Screen+Secure")
+                
+                List(reminders) { reminder in
+                    VStack(alignment: .leading) {
+                        Text(reminder.title)
+                            .font(.headline)
+                        Text(reminder.date.formatted(date: .long, time: .omitted))
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                        Text(reminder.type)
+                            .font(.caption)
+                            .foregroundColor(.blue)
+                    }
+                    .padding(.vertical, 4)
+                    .navigationTitle("My Reminders")
+                }
             } // end of scrollview
         } // end of nav stack
 
