@@ -11,6 +11,10 @@ struct ContentView: View {
     @State private var reminders: [Reminder] = []
     @State private var showAddReminderView: Bool = false
     
+    var nextReminder: Reminder? {
+        reminders.sorted { $0.date < $1.date }.first
+    }
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -18,10 +22,17 @@ struct ContentView: View {
                     Text("Next Reminder")
                         .font(.title2)
                         .fontWeight(.bold)
-                    Text("HPV Vaccine – Aug 27, 2025 at 10:00 AM")
-                        .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(10)
+                    if let next = nextReminder {
+                        Text("\(next.title) – \(next.date.formatted(date: .long, time: .omitted))")
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(10)
+                    } else {
+                        Text("No reminders yet.")
+                            .padding()
+                            .background(Color.gray.opacity(0.2))
+                            .cornerRadius(10)
+                    }
                     
                     Text("Health Tip of the Day")
                         .font(.title2)
