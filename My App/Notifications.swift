@@ -11,14 +11,14 @@ import UserNotifications
 struct NotificationManager {
     static func scheduleNotification(for reminder: Reminder) {
         let content = UNMutableNotificationContent()
-        content.title = reminder.title
-        content.body = "Your \(reminder.type.lowercased()) reminder is today."
+        content.title = "SecureScreening"
+        content.body = "Your \(reminder.title.lowercased()) reminder is today."
         content.sound = .default
 
         var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: reminder.date)
         dateComponents.hour = 9
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: false)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
 
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,
