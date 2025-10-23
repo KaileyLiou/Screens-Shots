@@ -16,7 +16,7 @@ struct ContentView: View {
     }
     
     let healthTips: [String] = [
-        "Drinking water regularly throughout the day helps improve energy and focus.",
+        "Did you know? The HPV vaccine can prevent 90% of cervical cancers.",
         "Getting at least 7–8 hours of sleep supports immune function and brain health.",
         "Regular physical activity reduces your risk of heart disease and diabetes.",
         "Taking breaks from screens helps prevent eye strain and mental fatigue.",
@@ -32,33 +32,32 @@ struct ContentView: View {
         TabView {
             NavigationStack {
                 ZStack {
-                    Color(red: 0.98, green: 0.96, blue: 0.92)
+                    Color(red: 0.40, green: 0.50, blue: 0.35)
                         .ignoresSafeArea()
                     
                     ScrollView {
                         VStack(alignment: .leading, spacing: 25) {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(Color.white.opacity(0.9))
-                                    .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
-
+                            HStack {
                                 Text("Screens & Shots")
                                     .font(.largeTitle)
-                                    .fontWeight(.bold)
-                                    .padding()
+                                    .fontWeight(.heavy)
+                                    .foregroundColor(.white)
+                                    Spacer()
                             }
-                            .frame(height: 80)
                             .padding(.horizontal)
+                            .padding(.top, 20)
                             
-                            VStack(alignment: .leading, spacing: 15) {
+                            VStack(alignment: .leading, spacing: 12) {
                                 Text("Next Reminder")
                                     .font(.title2)
                                     .fontWeight(.semibold)
+                                    .foregroundColor(.primary)
 
                                 if let next = nextReminder {
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(next.title)
                                             .font(.headline)
+                                            .foregroundColor(.black)
                                         Text(next.date.formatted(date: .long, time: .omitted))
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
@@ -72,18 +71,19 @@ struct ContentView: View {
                             .padding()
                             .background(Color.white)
                             .cornerRadius(16)
-                            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                            .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 3)
                             .padding(.horizontal)
                             
-                            
-                            VStack(alignment: .leading, spacing: 15) {
+                            VStack(alignment: .leading, spacing: 12) {
                                 Text("Health Tip of the Day")
                                     .font(.title2)
                                     .fontWeight(.semibold)
+                                    .foregroundColor(.primary)
 
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text("Did you know?")
                                         .font(.headline)
+                                        .foregroundColor(.black)
 
                                     Text(dailyTip)
                                         .font(.subheadline)
@@ -93,28 +93,13 @@ struct ContentView: View {
                             .padding()
                             .background(Color.white)
                             .cornerRadius(16)
-                            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                            .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 3)
                             .padding(.horizontal)
-
-//                            Text("Health Tip of the Day")
-//                                .font(.title2)
-//                                .fontWeight(.bold)
-//                            Text("Did you know? The HPV vaccine can prevent 90% of cervical cancers.")
-//                                .padding()
-//                                .background(Color.gray.opacity(0.2))
-//                                .cornerRadius(10)
-//                            
-//                            Text("Cybersecurity Tip of the Day")
-//                                .font(.title2)
-//                                .bold()
-//                            Text("Never post your vaccine card or appointment screenshot online.")
-//                                .padding()
-//                                .background(Color.gray.opacity(0.2))
-//                                .cornerRadius(10)
-                            
                         } // end of vstack
-                        .padding()
+                        .padding(.bottom, 40)
+                        
                     } // end of scrollview
+                    
                 } // end of zstack
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
@@ -122,6 +107,8 @@ struct ContentView: View {
                             showAddReminderView = true
                         } label: {
                             Image(systemName: "plus")
+                                .foregroundColor(.white)
+                                .font(.title2)
                         }
                     }
                 }
