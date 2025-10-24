@@ -45,7 +45,6 @@ struct ContentView: View {
                                     Spacer()
                             }
                             .padding(.horizontal)
-                            .padding(.top, 20)
                             
                             VStack(alignment: .leading, spacing: 12) {
                                 Text("Next Reminder")
