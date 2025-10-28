@@ -159,7 +159,7 @@ struct ContentView: View {
                 
                 VStack(spacing: 30) {
                     VStack(spacing: 6) {
-                        Text("Screens & Shots")
+                        Text("Screens + Shots")
                             .font(.system(size: 36, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
                         
@@ -192,7 +192,7 @@ struct ContentView: View {
                             }
                         } label: {
                             DashboardCard(
-                                title: "Generate Vaccine Recommendations",
+                                title: "Generate Recommendations",
                                 subtitle: "Based on your profile",
                                 icon: "syringe",
                                 background: Color.white
