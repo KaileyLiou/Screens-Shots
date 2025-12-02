@@ -141,6 +141,7 @@ struct ContentView: View {
     @State private var showingAddReminder = false
     @State private var showingProfile = false
     @State private var showProfileAlert = false
+    @State private var showingSources = false
     
     var nextReminderText: String {
         if let next = reminderStore.reminders
@@ -273,10 +274,38 @@ struct ContentView: View {
                                     background: Color.white
                                 )
                             }
+                            
+                            Button {
+                                showingSources = true
+                            } label: {
+                                HStack {
+                                    Image(systemName: "link")
+                                    Text("View Sources")
+                                }
+                                .font(.subheadline)
+                                .foregroundColor(Color(red: 0.40, green: 0.50, blue: 0.35))
+                                .padding()
+                                .background(Color.white)
+                                .cornerRadius(10)
+                            }
+                            .sheet(isPresented: $showingSources) {
+                                SourcesView()
+                            }
+                            
                         }
                         .padding(.horizontal)
                         
                         Spacer()
+                        
+                        VStack(spacing: 6) {
+                            Text("⚠️ This app provides general health information only. It is not a substitute for professional medical advice. Always consult your doctor before making medical decisions.")
+                                .font(.caption)
+                                .foregroundColor(.white.opacity(0.9))
+                                .padding()
+                                .background(Color.black.opacity(0.2))
+                                .cornerRadius(12)
+                                .padding(.horizontal)
+                        }
                     }
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
