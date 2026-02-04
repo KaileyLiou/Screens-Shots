@@ -298,7 +298,7 @@ struct ContentView: View {
                         Spacer()
                         
                         VStack(spacing: 6) {
-                            Text("⚠️ This app provides general health information only. It is not a substitute for professional medical advice. Always consult your doctor before making medical decisions.")
+                            Text("⚠️ This app provides general health information and is not medical advice. Consult a doctor before making decisions.")
                                 .font(.caption)
                                 .foregroundColor(.white.opacity(0.9))
                                 .padding()
