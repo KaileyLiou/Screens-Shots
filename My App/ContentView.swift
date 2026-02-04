@@ -275,29 +275,29 @@ struct ContentView: View {
                                 )
                             }
                             
-                            Button {
-                                showingSources = true
-                            } label: {
-                                HStack {
-                                    Image(systemName: "link")
-                                    Text("View Sources")
-                                }
-                                .font(.subheadline)
-                                .foregroundColor(Color(red: 0.40, green: 0.50, blue: 0.35))
-                                .padding()
-                                .background(Color.white)
-                                .cornerRadius(10)
-                            }
-                            .sheet(isPresented: $showingSources) {
-                                SourcesView()
-                            }
+//                            Button {
+//                                showingSources = true
+//                            } label: {
+//                                HStack {
+//                                    Image(systemName: "link")
+//                                    Text("View Sources")
+//                                }
+//                                .font(.subheadline)
+//                                .foregroundColor(Color(red: 0.40, green: 0.50, blue: 0.35))
+//                                .padding()
+//                                .background(Color.white)
+//                                .cornerRadius(10)
+//                            }
+//                            .sheet(isPresented: $showingSources) {
+//                                SourcesView()
+//                            }
                             
                         }
                         .padding(.horizontal)
                         
                         Spacer()
                         
-                        VStack(spacing: 6) {
+                        VStack(spacing: 15) {
                             Text("⚠️ This app provides general health information and is not medical advice. Consult a doctor before making decisions.")
                                 .font(.caption)
                                 .foregroundColor(.white.opacity(0.9))
@@ -305,6 +305,24 @@ struct ContentView: View {
                                 .background(Color.black.opacity(0.2))
                                 .cornerRadius(12)
                                 .padding(.horizontal)
+                            Button {
+                                showingSources = true
+                            } label: {
+                                HStack {
+                                    Image(systemName: "link")
+                                    Text("View Sources")
+                                }
+                                .font(.footnote)
+                                .foregroundColor(Color(red: 0.40, green: 0.50, blue: 0.35))
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 16)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                            }
+                            .sheet(isPresented: $showingSources) {
+                                SourcesView()
+                            }
+
                         }
                     }
                     .toolbar {
