@@ -15,7 +15,6 @@ struct ContentView: View {
     @State private var showProfileAlert = false
     @State private var showingSources = false
 
-    // Next upcoming reminder
     var nextReminder: Reminder? {
         reminderStore.reminders
             .filter { $0.date.isTodayOrLater() }
@@ -23,7 +22,6 @@ struct ContentView: View {
             .first
     }
 
-    // Number of upcoming reminders
     var upcomingCount: Int {
         reminderStore.reminders.filter { $0.date.isTodayOrLater() }.count
     }
@@ -37,7 +35,6 @@ struct ContentView: View {
                 ScrollView {
                     VStack(spacing: 25) {
 
-                        // MARK: - Header
                         VStack(spacing: 10) {
                             Text("Screens + Shots")
                                 .font(.system(size: 36, weight: .bold, design: .rounded))
@@ -55,7 +52,6 @@ struct ContentView: View {
                         }
                         .padding(.top, 20)
 
-                        // MARK: - Next Reminder Card
                         if let next = nextReminder {
                             DashboardCard(
                                 title: "Next Reminder",
@@ -78,9 +74,7 @@ struct ContentView: View {
                             .padding(.horizontal)
                         }
 
-                        // MARK: - Action Buttons
                         VStack(spacing: 15) {
-                            // Generate Recommendations Button
                             Button {
                                 if profileStore.profile.name.isEmpty {
                                     showProfileAlert = true
@@ -109,7 +103,6 @@ struct ContentView: View {
                                 Button("OK") { showingProfile = true }
                             }
 
-                            // Add Custom Reminder Button
                             Button {
                                 showingAddReminder = true
                             } label: {
@@ -121,7 +114,6 @@ struct ContentView: View {
                                 )
                             }
 
-                            // View All Reminders
                             NavigationLink {
                                 AllRemindersView(reminders: $reminderStore.reminders)
                             } label: {
@@ -133,7 +125,6 @@ struct ContentView: View {
                                 )
                             }
 
-                            // View Sources Button
                             Button {
                                 showingSources = true
                             } label: {
@@ -148,7 +139,6 @@ struct ContentView: View {
                         .padding(.horizontal)
                         .padding(.bottom, 20)
 
-                        // MARK: - Disclaimer
                         Text("This app provides general health information and is not medical advice. Consult a doctor before making decisions.")
                             .font(.footnote)
                             .foregroundColor(.white.opacity(0.8))
@@ -184,7 +174,6 @@ struct ContentView: View {
     }
 }
 
-// MARK: - DashboardCard
 struct DashboardCard: View {
     let title: String
     let subtitle: String
@@ -234,7 +223,6 @@ struct DashboardCard: View {
     }
 }
 
-// MARK: - Preview
 #Preview {
     ContentView()
 }
