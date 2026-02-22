@@ -13,8 +13,7 @@ struct SourcesView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(red: 0.97, green: 0.96, blue: 0.92)
-                    .ignoresSafeArea()
+                Color.background.ignoresSafeArea()
                 
                 ScrollView {
                     VStack(spacing: 20) {
@@ -28,9 +27,7 @@ struct SourcesView: View {
             .navigationTitle("Sources")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Close") {
-                        dismiss()
-                    }
+                    Button("Close") { dismiss() }
                 }
             }
         }
@@ -58,8 +55,4 @@ struct SourceCard: View {
             .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 3)
         }
     }
-}
-
-#Preview {
-    SourcesView()
 }

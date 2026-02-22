@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		D13880C82EB305B700ED6EE4 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13880C72EB305B700ED6EE4 /* Date+Extensions.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		D10481592E49403E0026EDDE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -31,7 +27,6 @@
 		D104814B2E49403D0026EDDE /* My App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D10481582E49403E0026EDDE /* My AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D10481622E49403E0026EDDE /* My AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "My AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D13880C72EB305B700ED6EE4 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -80,7 +75,6 @@
 		D10481422E49403D0026EDDE = {
 			isa = PBXGroup;
 			children = (
-				D13880C72EB305B700ED6EE4 /* Date+Extensions.swift */,
 				D104814D2E49403D0026EDDE /* My App */,
 				D104815B2E49403E0026EDDE /* My AppTests */,
 				D10481652E49403E0026EDDE /* My AppUITests */,
@@ -250,7 +244,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D13880C82EB305B700ED6EE4 /* Date+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

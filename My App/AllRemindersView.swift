@@ -21,13 +21,14 @@ struct AllRemindersView: View {
     }
     
     var filteredReminders: [Reminder] {
-        let base = switch filterSelection {
+        let base: [Reminder]
+        switch filterSelection {
         case .upcoming:
-            reminders.filter { $0.date >= Calendar.current.startOfDay(for: Date()) }
+            base = reminders.filter { $0.date >= Calendar.current.startOfDay(for: Date()) }
         case .past:
-            reminders.filter { $0.date < Calendar.current.startOfDay(for: Date()) }
+            base = reminders.filter { $0.date < Calendar.current.startOfDay(for: Date()) }
         case .all:
-            reminders
+            base = reminders
         }
         
         if searchText.isEmpty {

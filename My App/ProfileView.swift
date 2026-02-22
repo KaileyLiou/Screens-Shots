@@ -97,13 +97,23 @@ struct ProfileView: View {
                     }) {
                         Text("Save Profile")
                             .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
+                            .frame(maxWidth: 300)
                             .padding()
-                            .background(canSave ? Color(red: 0.40, green: 0.50, blue: 0.35) : Color.gray)
                             .foregroundColor(.white)
+                            .background(
+                                ZStack {
+                                    if !canSave {
+                                        Color.gray
+                                    } else {
+                                        LinearGradient(colors: [.accentGreen, .green], startPoint: .leading, endPoint: .trailing)
+                                    }
+                                }
+                            )
                             .cornerRadius(12)
+                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 3)
                     }
                     .disabled(!canSave)
+                    .frame(maxWidth: .infinity)
                     
                 }
                 .padding()

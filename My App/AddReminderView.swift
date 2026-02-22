@@ -35,9 +35,9 @@ struct AddReminderView: View {
                             .cornerRadius(10)
                         
                         DatePicker("Select Date", selection: $date, displayedComponents: .date)
-                            .datePickerStyle(.compact)
+                            .datePickerStyle(.graphical)
                             .padding()
-                            .background(Color(red: 0.95, green: 0.95, blue: 0.95))
+                            .background(Color.background)
                             .cornerRadius(10)
                         
                         Picker("Reminder Type", selection: $type) {
@@ -59,21 +59,34 @@ struct AddReminderView: View {
                     
                     Button(action: {
                         let newReminder = Reminder(title: title, date: date, type: type)
-                        reminders.append(newReminder)
-                        NotificationManager.scheduleNotification(for: newReminder)
-                        dismiss()
+                        
+                        if !reminders.contains(where: { $0.title == newReminder.title && $0.date == newReminder.date }) {
+                            withAnimation {
+                                reminders.append(newReminder)
+                            }
+//                            NotificationManager.scheduleNotification(for: newReminder)
+//                            dismiss()
+                        }
                     }) {
                         Text("Save Reminder")
                             .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
+                            .frame(maxWidth: 300)
                             .padding()
-                            .background(title.isEmpty ? Color.gray : Color(red: 0.40, green: 0.50, blue: 0.35))
-                            .foregroundColor(title.isEmpty ? Color.white.opacity(0.7) : Color.white)
+                            .foregroundColor(.white)
+                            .background(
+                                ZStack {
+                                    if title.isEmpty {
+                                        Color.gray
+                                    } else {
+                                        LinearGradient(colors: [.accentGreen, .green], startPoint: .leading, endPoint: .trailing)
+                                    }
+                                }
+                            )
                             .cornerRadius(15)
+                            .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 3)
                     }
                     .disabled(title.isEmpty)
-                    .padding(.horizontal)
-                    .padding(.bottom, 40)
+                    .frame(maxWidth: .infinity)
                     
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
