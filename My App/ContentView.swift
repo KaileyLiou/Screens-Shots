@@ -80,16 +80,10 @@ struct ContentView: View {
                                     showProfileAlert = true
                                 } else {
                                     let newReminders = VaccineRecommendations.recommendedReminders(for: profileStore.profile)
-                                    let uniqueReminders = newReminders.filter { newReminder in
-                                        !reminderStore.reminders.contains(where: { existing in
-                                            existing.title == newReminder.title && existing.date == newReminder.date
-                                        })
-                                    }
-                                    if !uniqueReminders.isEmpty {
-                                        withAnimation {
-                                            reminderStore.reminders.append(contentsOf: uniqueReminders)
-                                        }
-                                    }
+                                    
+                                    newReminders.forEach { reminderStore.addIfUnique($0) }
+                                    
+                                    newReminders.forEach { NotificationManager.scheduleNotification(for: $0) }
                                 }
                             } label: {
                                 DashboardCard(
@@ -160,7 +154,7 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showingAddReminder) {
-                AddReminderView(reminders: $reminderStore.reminders)
+                AddReminderView(reminderStore: reminderStore)
             }
             .sheet(isPresented: $showingProfile) {
                 ProfileView(profile: $profileStore.profile)

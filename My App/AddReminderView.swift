@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct AddReminderView: View {
-    @Binding var reminders : [Reminder]
+    @ObservedObject var reminderStore: ReminderStore
     @Environment(\.dismiss) var dismiss
     @State private var title = ""
     @State private var date = Date()
     @State private var type = "Vaccine"
     
     var body: some View {
-        
         NavigationStack {
             ZStack {
                 Color(red: 0.97, green: 0.96, blue: 0.92)
@@ -25,8 +24,7 @@ struct AddReminderView: View {
                     Text("New Reminder")
                         .font(.system(size: 28, weight: .semibold, design: .rounded))
                         .foregroundColor(.black.opacity(0.8))
-                        .padding(.top, 30)
-                        .padding(.bottom, 10)
+                        .padding(.top, 20)
                     
                     VStack(spacing: 20) {
                         TextField("Enter reminder title", text: $title)
@@ -37,7 +35,7 @@ struct AddReminderView: View {
                         DatePicker("Select Date", selection: $date, displayedComponents: .date)
                             .datePickerStyle(.graphical)
                             .padding()
-                            .background(Color.background)
+                            .background(Color.white)
                             .cornerRadius(10)
                         
                         Picker("Reminder Type", selection: $type) {
@@ -59,34 +57,22 @@ struct AddReminderView: View {
                     
                     Button(action: {
                         let newReminder = Reminder(title: title, date: date, type: type)
-                        
-                        if !reminders.contains(where: { $0.title == newReminder.title && $0.date == newReminder.date }) {
-                            withAnimation {
-                                reminders.append(newReminder)
-                            }
-//                            NotificationManager.scheduleNotification(for: newReminder)
-//                            dismiss()
-                        }
+                        reminderStore.addIfUnique(newReminder)
+                        NotificationManager.scheduleNotification(for: newReminder)
+                        dismiss()
                     }) {
                         Text("Save Reminder")
                             .fontWeight(.bold)
                             .frame(maxWidth: 300)
                             .padding()
                             .foregroundColor(.white)
-                            .background(
-                                ZStack {
-                                    if title.isEmpty {
-                                        Color.gray
-                                    } else {
-                                        LinearGradient(colors: [.accentGreen, .green], startPoint: .leading, endPoint: .trailing)
-                                    }
-                                }
-                            )
+                            .background(title.isEmpty ? Color.gray : Color.accentGreen)
                             .cornerRadius(15)
                             .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 3)
                     }
                     .disabled(title.isEmpty)
                     .frame(maxWidth: .infinity)
+                    .padding(.bottom, 30)
                     
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
@@ -96,17 +82,12 @@ struct AddReminderView: View {
                             .foregroundColor(.black.opacity(0.8))
                         }
                     }
-                    .navigationBarTitleDisplayMode(.inline)
-                    .toolbarBackground(Color(red: 0.97, green: 0.96, blue: 0.92), for: .navigationBar)
-                    .toolbarBackground(.visible, for: .navigationBar)
                 }
-                
             }
-            
         }
     }
 }
 
 #Preview {
-    AddReminderView(reminders: .constant([]))
+    AddReminderView(reminderStore: ReminderStore())
 }

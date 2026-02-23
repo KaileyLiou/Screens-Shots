@@ -9,28 +9,36 @@ import Foundation
 import UserNotifications
 
 struct NotificationManager {
+    
     static func scheduleNotification(for reminder: Reminder) {
-        let content = UNMutableNotificationContent()
-        content.title = "SecureScreening"
-        content.body = "Your \(reminder.title.lowercased()) reminder is today."
-        content.sound = .default
-
-        var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: reminder.date)
-        dateComponents.hour = 9
-
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-
-        let request = UNNotificationRequest(
-            identifier: UUID().uuidString,
-            content: content,
-            trigger: trigger
-        )
-
-        UNUserNotificationCenter.current().add(request) { error in
-            if let error = error {
-                print("Failed to schedule notification: \(error)")
-            } else {
-                print("Notification scheduled for \(reminder.title) at 9 AM on \(reminder.date)")
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            guard settings.authorizationStatus == .authorized else {
+                print("Notifications not allowed")
+                return
+            }
+            
+            let content = UNMutableNotificationContent()
+            content.title = "SecureScreening"
+            content.body = "Your \(reminder.title.lowercased()) reminder is today."
+            content.sound = .default
+            
+            var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: reminder.date)
+            dateComponents.hour = 9
+            
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+            
+            let request = UNNotificationRequest(
+                identifier: reminder.id.uuidString,
+                content: content,
+                trigger: trigger
+            )
+            
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("Failed to schedule notification: \(error)")
+                } else {
+                    print("Notification scheduled for \(reminder.title) at 9 AM on \(reminder.date)")
+                }
             }
         }
     }

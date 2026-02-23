@@ -16,6 +16,11 @@ class ReminderStore: ObservableObject {
     
     init() { loadReminders() }
     
+    func addIfUnique(_ newReminder: Reminder) {
+        guard !reminders.contains(where: { $0.title == newReminder.title && $0.date == newReminder.date }) else { return }
+        reminders.append(newReminder)
+    }
+    
     private func saveReminders() {
         if let encoded = try? JSONEncoder().encode(reminders) {
             UserDefaults.standard.set(encoded, forKey: remindersKey)
