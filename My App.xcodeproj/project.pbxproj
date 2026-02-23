@@ -78,7 +78,6 @@
 				D104814D2E49403D0026EDDE /* My App */,
 				D104815B2E49403E0026EDDE /* My AppTests */,
 				D10481652E49403E0026EDDE /* My AppUITests */,
-				D18A6FC42ED5372200C417A7 /* Frameworks */,
 				D104814C2E49403D0026EDDE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -91,13 +90,6 @@
 				D10481622E49403E0026EDDE /* My AppUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		D18A6FC42ED5372200C417A7 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
