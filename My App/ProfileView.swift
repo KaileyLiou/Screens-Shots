@@ -28,6 +28,10 @@ struct ProfileView: View {
             ScrollView {
                 VStack(spacing: 20) {
 
+                    Text("Profile")
+                        .font(.system(size: 28, weight: .semibold, design: .rounded))
+                        .foregroundColor(.black.opacity(0.8))
+
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Basic Info")
                             .font(.headline)
@@ -61,12 +65,13 @@ struct ProfileView: View {
                             .font(.headline)
 
                         FlexibleView(data: conditions, spacing: 8) { condition in
-                            HStack {
+                            HStack(spacing: 4) {
                                 Text(condition)
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 4)
                                     .background(Color.accentGreen.opacity(0.2))
                                     .cornerRadius(8)
+
                                 Button(action: {
                                     if let index = conditions.firstIndex(of: condition) {
                                         conditions.remove(at: index)
@@ -74,6 +79,7 @@ struct ProfileView: View {
                                 }) {
                                     Image(systemName: "xmark.circle.fill")
                                         .foregroundColor(.gray)
+                                        .font(.caption)
                                 }
                             }
                         }
@@ -110,10 +116,6 @@ struct ProfileView: View {
                             .background(Color.white)
                             .cornerRadius(10)
                             .shadow(color: .black.opacity(0.05), radius: 3, x: 0, y: 2)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray.opacity(0.2))
-                            )
                     }
 
                     Button(action: {
@@ -135,16 +137,15 @@ struct ProfileView: View {
                     }
                     .disabled(!canSave)
                     .frame(maxWidth: .infinity)
+
                 }
                 .padding()
             }
             .background(Color.background)
-            .navigationTitle("Profile")
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(action: { dismiss() }) {
-                        Image(systemName: "xmark")
-                            .foregroundColor(.black)
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
                     }
                 }
             }

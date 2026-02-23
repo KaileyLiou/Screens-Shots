@@ -48,6 +48,10 @@ struct AllRemindersView: View {
                     .ignoresSafeArea()
                 
                 VStack(spacing: 15) {
+                    Text("All Reminders")
+                        .font(.system(size: 28, weight: .semibold, design: .rounded))
+                        .foregroundColor(.black.opacity(0.8))
+                    
                     Picker("Filter", selection: $filterSelection) {
                         ForEach(ReminderFilter.allCases) { filter in
                             Text(filter.rawValue).tag(filter)
@@ -81,7 +85,7 @@ struct AllRemindersView: View {
                         .listStyle(PlainListStyle())
                     }
                 }
-                .navigationTitle("All Reminders")
+//                .navigationTitle("All Reminders")
                 .searchable(text: $searchText, prompt: "Search by title or type")
             }
         }

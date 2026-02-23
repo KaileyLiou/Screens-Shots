@@ -10,9 +10,14 @@ import SwiftUI
 struct AddReminderView: View {
     @ObservedObject var reminderStore: ReminderStore
     @Environment(\.dismiss) var dismiss
+    
     @State private var title = ""
     @State private var date = Date()
     @State private var type = "Vaccine"
+    
+    var canSave: Bool {
+        !title.trimmingCharacters(in: .whitespaces).isEmpty
+    }
     
     var body: some View {
         NavigationStack {
@@ -24,7 +29,9 @@ struct AddReminderView: View {
                     Text("New Reminder")
                         .font(.system(size: 28, weight: .semibold, design: .rounded))
                         .foregroundColor(.black.opacity(0.8))
+                        .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, 20)
+                        .padding(.horizontal)
                     
                     VStack(spacing: 20) {
                         TextField("Enter reminder title", text: $title)
@@ -66,22 +73,21 @@ struct AddReminderView: View {
                             .frame(maxWidth: 300)
                             .padding()
                             .foregroundColor(.white)
-                            .background(title.isEmpty ? Color.gray : Color.accentGreen)
+                            .background(canSave ? Color.accentGreen : Color.gray)
                             .cornerRadius(15)
                             .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 3)
                     }
-                    .disabled(title.isEmpty)
+                    .disabled(!canSave)
                     .frame(maxWidth: .infinity)
                     .padding(.bottom, 30)
-                    
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button("Cancel") {
-                                dismiss()
-                            }
-                            .foregroundColor(.black.opacity(0.8))
-                        }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
                     }
+                    .foregroundColor(.black.opacity(0.8))
                 }
             }
         }

@@ -17,6 +17,11 @@ struct SourcesView: View {
                 
                 ScrollView {
                     VStack(spacing: 20) {
+                        Text("Sources")
+                            .font(.system(size: 28, weight: .semibold, design: .rounded))
+                            .foregroundColor(.black.opacity(0.8))
+                            .padding(.bottom, 10)
+                        
                         SourceCard(title: "CDC Vaccine Recommendations", url: "https://www.cdc.gov/vaccines/hcp/imz-schedules/index.html")
                         SourceCard(title: "WHO Vaccination Guidelines", url: "https://www.who.int/teams/immunization-vaccines-and-biologicals")
                         SourceCard(title: "American Heart Association Guidelines", url: "https://www.heart.org/en/health-topics")
@@ -24,9 +29,9 @@ struct SourcesView: View {
                     .padding()
                 }
             }
-            .navigationTitle("Sources")
+//            .navigationTitle("Sources")
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button("Close") { dismiss() }
                 }
             }
@@ -55,4 +60,8 @@ struct SourceCard: View {
             .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 3)
         }
     }
+}
+
+#Preview {
+    SourcesView()
 }

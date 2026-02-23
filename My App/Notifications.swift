@@ -18,7 +18,7 @@ struct NotificationManager {
             }
             
             let content = UNMutableNotificationContent()
-            content.title = "SecureScreening"
+            content.title = "Screens + Shots"
             content.body = "Your \(reminder.title.lowercased()) reminder is today."
             content.sound = .default
             
@@ -26,6 +26,11 @@ struct NotificationManager {
             dateComponents.hour = 9
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+            
+//            let trigger = UNTimeIntervalNotificationTrigger(
+//                timeInterval: 5, // appears in 5 seconds for testing purposes
+//                repeats: false
+//            )
             
             let request = UNNotificationRequest(
                 identifier: reminder.id.uuidString,
