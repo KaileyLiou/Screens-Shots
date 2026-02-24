@@ -85,7 +85,6 @@ struct AllRemindersView: View {
                         .listStyle(PlainListStyle())
                     }
                 }
-//                .navigationTitle("All Reminders")
                 .searchable(text: $searchText, prompt: "Search by title or type")
             }
         }

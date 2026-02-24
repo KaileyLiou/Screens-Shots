@@ -24,7 +24,8 @@ struct SourcesView: View {
                         
                         SourceCard(title: "CDC Vaccine Recommendations", url: "https://www.cdc.gov/vaccines/hcp/imz-schedules/index.html")
                         SourceCard(title: "WHO Vaccination Guidelines", url: "https://www.who.int/teams/immunization-vaccines-and-biologicals")
-                        SourceCard(title: "American Heart Association Guidelines", url: "https://www.heart.org/en/health-topics")
+                        SourceCard(title: "ACS Screening Guidelines", url: "https://www.cancer.org/cancer/screening/screening-recommendations-by-age.html")
+                        SourceCard(title: "USPSTF A & B Recommendations", url: "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation-topics/uspstf-a-and-b-recommendations")
                     }
                     .padding()
                 }

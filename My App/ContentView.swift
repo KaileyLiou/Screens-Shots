@@ -10,10 +10,12 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var reminderStore = ReminderStore()
     @StateObject private var profileStore = ProfileStore()
+    
     @State private var showingAddReminder = false
     @State private var showingProfile = false
     @State private var showProfileAlert = false
     @State private var showingSources = false
+    @State private var showConfirmation = false
 
     var nextReminder: Reminder? {
         reminderStore.reminders
@@ -31,15 +33,14 @@ struct ContentView: View {
             ZStack {
                 Color.accentGreen
                     .ignoresSafeArea()
-
+                
                 ScrollView {
                     VStack(spacing: 25) {
-
                         VStack(spacing: 10) {
                             Text("Screens + Shots")
                                 .font(.system(size: 36, weight: .bold, design: .rounded))
                                 .foregroundColor(.white)
-
+                            
                             if !profileStore.profile.name.isEmpty {
                                 Text("Welcome, \(profileStore.profile.name)!")
                                     .font(.title2)
@@ -84,6 +85,8 @@ struct ContentView: View {
                                     newReminders.forEach { reminderStore.addIfUnique($0) }
                                     
                                     newReminders.forEach { NotificationManager.scheduleNotification(for: $0) }
+                                    
+                                    showConfirmation = true
                                 }
                             } label: {
                                 DashboardCard(
@@ -95,6 +98,11 @@ struct ContentView: View {
                             }
                             .alert("Please create a profile first", isPresented: $showProfileAlert) {
                                 Button("OK") { showingProfile = true }
+                            }
+                            .alert("Recommendations Generated", isPresented: $showConfirmation) {
+                                Button("OK", role: .cancel) { }
+                            } message: {
+                                Text("Your reminders have been added to All Reminders.")
                             }
 
                             Button {
@@ -139,9 +147,9 @@ struct ContentView: View {
                             .padding(.horizontal)
                             .multilineTextAlignment(.center)
                             .padding(.bottom, 40)
-                    } // VStack
-                } // ScrollView
-            } // ZStack
+                    }
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -162,8 +170,6 @@ struct ContentView: View {
             .sheet(isPresented: $showingSources) {
                 SourcesView()
             }
-            .navigationTitle("")
-            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

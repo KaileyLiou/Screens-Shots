@@ -29,24 +29,50 @@ struct VaccineRecommendations {
         if age < 1 {
             reminders.append(contentsOf: [
                 makeReminder(title: "Hepatitis B Vaccine", type: "Vaccine", yearsFromBirthday: 0),
+                makeReminder(title: "RSV Vaccine", type: "Vaccine", yearsFromBirthday: 0),
                 makeReminder(title: "DTaP Vaccine", type: "Vaccine", yearsFromBirthday: 0),
+                makeReminder(title: "Hib Vaccine", type: "Vaccine", yearsFromBirthday: 0),
+                makeReminder(title: "IPV Vaccine", type: "Vaccine", yearsFromBirthday: 0),
+                makeReminder(title: "PCV Vaccine", type: "Vaccine", yearsFromBirthday: 0),
+                makeReminder(title: "Rotavirus Vaccine", type: "Vaccine", yearsFromBirthday: 0),
+                makeReminder(title: "Diphtheria Vaccine", type: "Vaccine", yearsFromBirthday: 0),
+                makeReminder(title: "Pneumococcal Vaccine", type: "Vaccine", yearsFromBirthday: 0),
                 makeReminder(title: "Polio Vaccine", type: "Vaccine", yearsFromBirthday: 0),
-                makeReminder(title: "Hib Vaccine", type: "Vaccine", yearsFromBirthday: 0)
+                makeReminder(title: "Tetanus Vaccine", type: "Vaccine", yearsFromBirthday: 0),
+                makeReminder(title: "Whooping Cough Vaccine", type: "Vaccine", yearsFromBirthday: 0)
             ])
         }
 
         if age >= 1 && age < 2 {
             reminders.append(contentsOf: [
+                makeReminder(title: "Chickenpox Vaccine", type: "Vaccine", yearsFromBirthday: 1),
+                makeReminder(title: "Hepatitis A Vaccine", type: "Vaccine", yearsFromBirthday: 1),
                 makeReminder(title: "MMR Vaccine", type: "Vaccine", yearsFromBirthday: 1),
-                makeReminder(title: "Varicella Vaccine", type: "Vaccine", yearsFromBirthday: 1)
+                makeReminder(title: "Measles Vaccine", type: "Vaccine", yearsFromBirthday: 1),
+                makeReminder(title: "Mumps Vaccine", type: "Vaccine", yearsFromBirthday: 1),
+                makeReminder(title: "Rubella Vaccine", type: "Vaccine", yearsFromBirthday: 1)
             ])
         }
 
         if age >= 2 && age < 5 {
             reminders.append(contentsOf: [
                 makeReminder(title: "DTaP Booster", type: "Vaccine", yearsFromBirthday: 4),
+                makeReminder(title: "IPV Booster", type: "Vaccine", yearsFromBirthday: 4),
+                makeReminder(title: "MMR Booster", type: "Vaccine", yearsFromBirthday: 4),
                 makeReminder(title: "Polio Booster", type: "Vaccine", yearsFromBirthday: 4)
             ])
+        }
+        
+        if age >= 11 && age <= 12 {
+            reminders.append(contentsOf: [
+                makeReminder(title: "HPV Booster", type: "Vaccine", yearsFromBirthday: 4),
+                makeReminder(title: "MenACWY Vaccine", type: "Vaccine", yearsFromBirthday: 4),
+                makeReminder(title: "Tdap Vaccine", type: "Vaccine", yearsFromBirthday: 4)
+            ])
+        }
+        
+        if age >= 13 && age < 19 {
+            reminders.append(makeReminder(title: "Td Vaccine", type: "Vaccine", yearsFromBirthday: 4))
         }
 
         if age >= 19 {
