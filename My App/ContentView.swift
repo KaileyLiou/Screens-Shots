@@ -86,6 +86,8 @@ struct ContentView: View {
                                     
                                     newReminders.forEach { NotificationManager.scheduleNotification(for: $0) }
                                     
+                                    print("Generated reminders:", reminderStore.reminders.map { $0.title }) // for debugging
+                                    
                                     showConfirmation = true
                                 }
                             } label: {

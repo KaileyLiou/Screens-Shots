@@ -16,6 +16,7 @@ struct Profile: Identifiable, Codable {
     var familyHistory: String = ""
     
     var age: Int {
-        Calendar.current.dateComponents([.year], from: dateOfBirth, to: Date()).year ?? 0
+        let calendar = Calendar.current
+        return calendar.dateComponents([.year], from: dateOfBirth, to: Date()).year ?? 0
     }
 }

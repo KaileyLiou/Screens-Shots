@@ -22,7 +22,7 @@ struct My_AppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashView()
                 .preferredColorScheme(.light)
         }
     }
