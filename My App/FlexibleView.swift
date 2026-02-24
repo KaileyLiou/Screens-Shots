@@ -13,7 +13,7 @@ struct FlexibleView<Data: Collection, Content: View>: View where Data.Element: H
     let alignment: HorizontalAlignment
     let content: (Data.Element) -> Content
 
-    @State private var totalHeight = CGFloat.zero 
+    @State private var totalHeight = CGFloat.zero
 
     init(data: Data, spacing: CGFloat = 8, alignment: HorizontalAlignment = .leading, @ViewBuilder content: @escaping (Data.Element) -> Content) {
         self.data = data
