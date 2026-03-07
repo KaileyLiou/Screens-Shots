@@ -1,11 +1,36 @@
 # Screens + Shots
 
-A health reminder app that allows users to stay on top of vaccines and cancer screenings. Users can create a simple profile with their age, gender, date of birth, and family history. The app then generates personalized recommendations and highlights the next upcoming reminder. Users can also view all reminders (including past and upcoming ones) and add custom reminders. This app makes it easy to ensure timely vaccinations for both children and adults, as well as cancer screenings for adults.
+Screens + Shots is a health reminder app that helps users stay on top of vaccines and cancer screenings. With a simple, personalized profile, the app generates tailored recommendations and highlights the next upcoming health reminder. It’s designed to make it easy for both adults and children to stay up to date with important preventive care.
+
+## Motivation CHANGE
+
+Managing vaccinations and cancer screenings can be overwhelming, especially for busy families or adults tracking multiple health milestones. Screens + Shots was built to simplify this process, providing a clear, personalized view of what’s next and helping users take timely action for their health.
+
+## Key Features
+- Personalized Recommendations: Age, gender, date of birth, and family history inform tailored health guidance.
+- Profile Management: Quickly create a user profile with key health details.
+- Upcoming Reminder Highlights: Easily see the next recommended vaccine or screening.
+- Complete Reminder Management: View past and upcoming reminders, and add custom ones.
+- Timely Alerts: Supports vaccinations for children and adults, and cancer screenings for adults.
+
+## Screenshots
+
+<img width="321" height="699" alt="Simulator Screenshot - iPhone 17 Pro Max - 2026-02-24 at 00 57 46" src="https://github.com/user-attachments/assets/f7f3363c-90da-45be-b76f-a9b1d2d78ec9" />
+<img width="321" height="699" alt="Simulator Screenshot - iPhone 17 Pro Max - 2026-02-24 at 00 57 53" src="https://github.com/user-attachments/assets/fb340e04-6b81-4d64-aa62-a6d9b45b6c03" />
+<img width="412" height="550" alt="Simulator Screenshot - iPad Air 13-inch (M3) - 2026-02-24 at 01 05 19" src="https://github.com/user-attachments/assets/38f1b970-6a12-4a17-9e71-dd26e4e67ee8" />
+<img width="412" height="550" alt="Simulator Screenshot - iPad Air 13-inch (M3) - 2026-02-24 at 01 05 26" src="https://github.com/user-attachments/assets/36b83d2e-18c5-4e83-880f-b8d2b9e5e606" />
+
+## How It Works
+
+The app is built entirely in Swift using SwiftUI for a clean and intuitive interface. User profiles are stored locally, and reminders are generated based on the user’s personal health information. Notifications alert users when a vaccine or screening is due, making preventive care easy to follow.
+
+## Challenges & Lessons Learned
+- 
 
 ## Built With
-- Swift
-- SwiftUI
-- Xcode
+- Swift - iOS development
+- SwiftUI – User interface design
+- Xcode – Development environment
 
 ## Disclaimer
 This app provides general health information and is not medical advice. Consult a doctor before making decisions.
@@ -13,8 +38,3 @@ This app provides general health information and is not medical advice. Consult 
 ## App Store
 
 Available on the App Store: https://apps.apple.com/app/screens-shots/id6755749446
-
-<img width="402" height="874" alt="Simulator Screenshot - iPhone 17 Pro Max - 2026-02-24 at 00 57 46" src="https://github.com/user-attachments/assets/f7f3363c-90da-45be-b76f-a9b1d2d78ec9" />
-<img width="402" height="874" alt="Simulator Screenshot - iPhone 17 Pro Max - 2026-02-24 at 00 57 53" src="https://github.com/user-attachments/assets/fb340e04-6b81-4d64-aa62-a6d9b45b6c03" />
-<img width="516" height="688" alt="Simulator Screenshot - iPad Air 13-inch (M3) - 2026-02-24 at 01 05 19" src="https://github.com/user-attachments/assets/38f1b970-6a12-4a17-9e71-dd26e4e67ee8" />
-<img width="516" height="688" alt="Simulator Screenshot - iPad Air 13-inch (M3) - 2026-02-24 at 01 05 26" src="https://github.com/user-attachments/assets/36b83d2e-18c5-4e83-880f-b8d2b9e5e606" />
