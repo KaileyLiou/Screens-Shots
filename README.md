@@ -41,7 +41,8 @@ The app is built entirely in Swift using SwiftUI for a clean and intuitive inter
 - Xcode – Development environment
 
 ## Disclaimer
-This app provides general health information and is not medical advice. Consult a doctor before making decisions.
+This app provides general health information and is not medical advice. Consult a doctor before making decisions. <br>
+AI was used to assist in generating this README.md and in debugging during the coding process.
 
 ## App Store
 
