@@ -2,7 +2,7 @@
 
 Screens + Shots is a health reminder app that helps users stay on top of vaccines and cancer screenings. With a simple, personalized profile, the app generates tailored recommendations and highlights the next upcoming health reminder. It’s designed to make it easy for both adults and children to stay up to date with important preventive care.
 
-## Motivation CHANGE
+## Inspiration
 
 Managing vaccinations and cancer screenings can be overwhelming, especially for busy families or adults tracking multiple health milestones. Screens + Shots was built to simplify this process, providing a clear, personalized view of what’s next and helping users take timely action for their health.
 
@@ -25,7 +25,15 @@ Managing vaccinations and cancer screenings can be overwhelming, especially for 
 The app is built entirely in Swift using SwiftUI for a clean and intuitive interface. User profiles are stored locally, and reminders are generated based on the user’s personal health information. Notifications alert users when a vaccine or screening is due, making preventive care easy to follow.
 
 ## Challenges & Lessons Learned
-- 
+- Ensuring the reminder system worked reliably, including accurate generation of personalized recommendations and timely notifications.
+- Designing a consistent, user-friendly interface, including adapting the app for different display modes and devices.
+- Managing local data storage effectively to handle user profiles, reminders, and health history.
+
+## Future Improvements
+- Enhanced Reminder Controls: Allow users to choose notification times, set recurring reminders, and verify reminders.
+- Profile Management: Add the ability to delete user profiles and manage reminders more easily.
+- UI & Visual Improvements: Animate cards and buttons, refine logo design, and improve overall interface polish.
+- Cross-Device Support: Sync reminders and profiles across multiple devices for seamless use.
 
 ## Built With
 - Swift - iOS development
