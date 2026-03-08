@@ -2,10 +2,6 @@
 
 Screens + Shots is a health reminder app that helps users stay on top of vaccines and cancer screenings. With a simple, personalized profile, the app generates tailored recommendations and highlights the next upcoming health reminder. It’s designed to make it easy for both adults and children to stay up to date with important preventive care.
 
-## Inspiration
-
-Managing vaccinations and cancer screenings can be overwhelming, especially for busy families or adults tracking multiple health milestones. Screens + Shots was built to simplify this process, providing a clear, personalized view of what’s next and helping users take timely action for their health.
-
 ## Key Features
 - Personalized Recommendations: Age, gender, date of birth, and family history inform tailored health guidance.
 - Profile Management: Quickly create a user profile with key health details.
