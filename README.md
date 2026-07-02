@@ -42,8 +42,8 @@ The app is built entirely in Swift using SwiftUI for a clean and intuitive inter
 
 ## Built With
 - Swift - iOS development
-- SwiftUI – User interface design
-- Xcode – Development environment
+- SwiftUI - User interface design
+- Xcode - Development environment
 
 ## Disclaimer
 This app provides general health information and is not medical advice. Consult a doctor before making decisions. <br>
