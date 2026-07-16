@@ -39,8 +39,9 @@ struct VaccineRecommendations {
             return Reminder(title: title, date: targetDate, type: type)
         }
 
-        // Flu Shot (Annual)
-        reminders.append(makeReminder(title: "Flu Shot (Annual)", type: "Vaccine", yearsFromBirthday: age))
+        // Flu Shot (Annual). Note: as of the 2026 cdc update this is a shared
+        // decision-making recommendation rather than a blanket one for everyone
+        reminders.append(makeReminder(title: "Flu Shot (Annual, ask your doctor)", type: "Vaccine", yearsFromBirthday: age))
 
         // Infant vaccines (multi-dose)
         if age < 1 {
@@ -62,9 +63,12 @@ struct VaccineRecommendations {
                 makeReminder(title: "IPV Vaccine (6 months)", type: "Vaccine", monthsFromBirthday: 6),
 
                 // Hib
+                // note: exact schedule depends on the brand your doctor uses. some (like
+                // ActHib/Pentacel) give a dose at 6 months, others (PedvaxHIB) skip straight
+                // to 12-15 months. showing the more common 4-dose version here
                 makeReminder(title: "Hib Vaccine (2 months)", type: "Vaccine", monthsFromBirthday: 2),
                 makeReminder(title: "Hib Vaccine (4 months)", type: "Vaccine", monthsFromBirthday: 4),
-                makeReminder(title: "Hib Vaccine (6 months)", type: "Vaccine", monthsFromBirthday: 6),
+                makeReminder(title: "Hib Vaccine (6 months, if applicable)", type: "Vaccine", monthsFromBirthday: 6),
                 makeReminder(title: "Hib Vaccine (12 months)", type: "Vaccine", monthsFromBirthday: 12),
 
                 // PCV
@@ -73,19 +77,23 @@ struct VaccineRecommendations {
                 makeReminder(title: "PCV Vaccine (6 months)", type: "Vaccine", monthsFromBirthday: 6),
                 makeReminder(title: "PCV Vaccine (12 months)", type: "Vaccine", monthsFromBirthday: 12),
 
-                // Rotavirus
-                makeReminder(title: "Rotavirus Vaccine (2 months)", type: "Vaccine", monthsFromBirthday: 2),
-                makeReminder(title: "Rotavirus Vaccine (4 months)", type: "Vaccine", monthsFromBirthday: 4),
-                makeReminder(title: "Rotavirus Vaccine (6 months)", type: "Vaccine", monthsFromBirthday: 6)
+                // Rotavirus, now a shared decision-making vaccine as of the 2026 cdc update
+                // rather than a blanket recommendation
+                makeReminder(title: "Rotavirus Vaccine (2 months, ask your doctor)", type: "Vaccine", monthsFromBirthday: 2),
+                makeReminder(title: "Rotavirus Vaccine (4 months, ask your doctor)", type: "Vaccine", monthsFromBirthday: 4),
+                makeReminder(title: "Rotavirus Vaccine (6 months, ask your doctor)", type: "Vaccine", monthsFromBirthday: 6)
             ])
         }
 
         // Toddlers/children vaccines
+        // note: as of the jan 2026 cdc schedule update, hepatitis a for kids moved from a
+        // blanket recommendation to risk-based/shared decision-making, so wording it softer
+        // instead of stating it as a flat requirement
         if age >= 1 && age < 2 {
             reminders.append(contentsOf: [
                 makeReminder(title: "MMR Vaccine (12-15 months)", type: "Vaccine", yearsFromBirthday: 1),
                 makeReminder(title: "Varicella Vaccine (12-15 months)", type: "Vaccine", yearsFromBirthday: 1),
-                makeReminder(title: "Hepatitis A Vaccine (12-23 months)", type: "Vaccine", yearsFromBirthday: 1)
+                makeReminder(title: "Hepatitis A Vaccine (12-23 months, ask your doctor)", type: "Vaccine", yearsFromBirthday: 1)
             ])
         }
 
@@ -102,7 +110,7 @@ struct VaccineRecommendations {
         if age >= 11 && age <= 12 {
             reminders.append(contentsOf: [
                 makeReminder(title: "HPV Vaccine (11-12 years)", type: "Vaccine", yearsFromBirthday: 11),
-                makeReminder(title: "MenACWY Vaccine (11-12 years)", type: "Vaccine", yearsFromBirthday: 11),
+                makeReminder(title: "MenACWY Vaccine (11-12 years, ask your doctor)", type: "Vaccine", yearsFromBirthday: 11),
                 makeReminder(title: "Tdap Vaccine (11-12 years)", type: "Vaccine", yearsFromBirthday: 11)
             ])
         }
@@ -115,12 +123,21 @@ struct VaccineRecommendations {
             reminders.append(makeReminder(title: "Shingles Vaccine (2 doses starting at 50)", type: "Vaccine", yearsFromBirthday: 50))
         }
 
+        if age >= 60 {
+            // shared decision-making, not a blanket recommendation, so this one leans
+            // on "ask your doctor" more than most
+            reminders.append(makeReminder(title: "RSV Vaccine (60+, ask your doctor)", type: "Vaccine", yearsFromBirthday: 60))
+        }
+
         if age >= 65 {
-            reminders.append(makeReminder(title: "Pneumococcal Vaccine", type: "Vaccine", yearsFromBirthday: 65))
+            // current guidance favors a single PCV20 dose over the older PCV13+PPSV23 combo
+            reminders.append(makeReminder(title: "Pneumococcal Vaccine (PCV20, single dose)", type: "Vaccine", yearsFromBirthday: 65))
         }
 
         // Screenings
-        if gender == "Female" && age >= 21 {
+        // cervical screening stops around 65 if someone's been adequately screened
+        // before then, per uspstf, so this needed an upper bound it didn't have before
+        if gender == "Female" && age >= 21 && age <= 65 {
             reminders.append(makeReminder(title: "Cervical Cancer Screening (Pap Smear every 3 years)", type: "Screening", yearsFromBirthday: 21))
         }
         if gender == "Female" && age >= 40 {
@@ -137,6 +154,44 @@ struct VaccineRecommendations {
         }
         if gender == "Female" && age >= 65 {
             reminders.append(makeReminder(title: "Osteoporosis Screening", type: "Screening", yearsFromBirthday: 65))
+        }
+        // uspstf grade a recommendation, one-time for everyone in this age range
+        // regardless of risk factors
+        if age >= 15 && age <= 65 {
+            reminders.append(makeReminder(title: "HIV Screening (once, ages 15-65)", type: "Screening", yearsFromBirthday: 15))
+        }
+        // uspstf grade b, also just a one-time test for this age range
+        if age >= 18 && age <= 79 {
+            reminders.append(makeReminder(title: "Hepatitis C Screening (once, ages 18-79)", type: "Screening", yearsFromBirthday: 18))
+        }
+        // grade c, individualized decision rather than a blanket yes, so this
+        // is worded as a conversation to have rather than a definite screening.
+        // added so male users get a sex-specific item too, same as female users
+        // already do with mammogram/cervical/osteoporosis
+        if gender == "Male" && age >= 55 && age <= 69 {
+            reminders.append(makeReminder(title: "Prostate Cancer Screening Discussion (55-69, ask your doctor)", type: "Screening", yearsFromBirthday: 55))
+        }
+
+        // Conditions + family history based additions.
+        // this is a first pass, not exhaustive, just a few well-established
+        // extra checks for the conditions/history people actually tend to enter
+        let conditionsText = profile.conditions.joined(separator: " ").lowercased()
+        let familyHistoryText = profile.familyHistory.lowercased()
+
+        // diabetes needs a yearly dilated eye exam to catch retinopathy early,
+        // regardless of age, this is standard ADA guidance
+        if conditionsText.contains("diabetes") {
+            reminders.append(makeReminder(title: "Diabetic Eye Exam (Annual)", type: "Screening", yearsFromBirthday: age))
+        }
+
+        // family history can justify starting some screenings earlier than the
+        // general population, phrased as a discussion since the exact earlier
+        // age really depends on the relative's diagnosis age
+        if gender == "Female" && age < 40 && (familyHistoryText.contains("breast cancer")) {
+            reminders.append(makeReminder(title: "Discuss Earlier Mammogram Screening (Family History)", type: "Screening", yearsFromBirthday: age))
+        }
+        if age >= 40 && age < 45 && (familyHistoryText.contains("colon") || familyHistoryText.contains("colorectal")) {
+            reminders.append(makeReminder(title: "Discuss Earlier Colorectal Screening (Family History)", type: "Screening", yearsFromBirthday: age))
         }
 
         // only show stuff that hasn't already passed, soonest first so it

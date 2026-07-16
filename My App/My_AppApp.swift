@@ -12,16 +12,10 @@ import UserNotifications
 struct My_AppApp: App {
     @StateObject private var settingsStore = SettingsStore()
 
-    init() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-            if let error = error {
-                print("Notification permission error: \(error.localizedDescription)")
-            } else {
-                print("Notification permission granted: \(granted)")
-            }
-        }
-    }
-
+    // no longer asking for notification permission here on launch, it now
+    // happens naturally the first time a reminder actually needs to be
+    // scheduled (see NotificationManager), so the user doesn't get a
+    // permission popup before they've even seen the app
     var body: some Scene {
         WindowGroup {
             SplashView()
