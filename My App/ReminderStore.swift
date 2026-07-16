@@ -7,6 +7,8 @@
 
 import Foundation
 
+// keeps all the reminders in memory + synced to UserDefaults, same pattern
+// as ProfileStore. @Published + didSet means it saves itself every change
 class ReminderStore: ObservableObject {
     @Published var reminders: [Reminder] = [] {
         didSet { saveReminders() }
@@ -16,6 +18,8 @@ class ReminderStore: ObservableObject {
     
     init() { loadReminders() }
     
+    // hitting "generate recommendations" more than once shouldn't create
+    // duplicate reminders, so check for a match before appending
     func addIfUnique(_ newReminder: Reminder) {
         guard !reminders.contains(where: { $0.title == newReminder.title && $0.date == newReminder.date }) else { return }
         reminders.append(newReminder)

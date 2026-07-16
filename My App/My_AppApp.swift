@@ -10,6 +10,8 @@ import UserNotifications
 
 @main
 struct My_AppApp: App {
+    @StateObject private var settingsStore = SettingsStore()
+
     init() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if let error = error {
@@ -23,7 +25,8 @@ struct My_AppApp: App {
     var body: some Scene {
         WindowGroup {
             SplashView()
-                .preferredColorScheme(.light)
+                .environmentObject(settingsStore)
+                .preferredColorScheme(settingsStore.appearanceMode.colorScheme)
         }
     }
 }

@@ -20,6 +20,8 @@ struct AllRemindersView: View {
         var id: String { self.rawValue }
     }
     
+    // what actually shows in the list: filtered by the selected tab
+    // (upcoming/past/all), then narrowed by the search box if its being used
     var filteredReminders: [Reminder] {
         let base: [Reminder]
         switch filterSelection {
@@ -91,7 +93,17 @@ struct AllRemindersView: View {
     }
     
     func deleteReminder(at offsets: IndexSet) {
-        reminders.remove(atOffsets: offsets)
+        // the swipe gives index positions from filteredReminders (whats on
+        // screen), not the full reminders array. if a filter/search is on
+        // those dont line up, so grab the actual objects first and remove
+        // by matching them instead of trusting the raw index
+        let itemsToDelete = offsets.map { filteredReminders[$0] }
+
+        itemsToDelete.forEach { NotificationManager.cancelNotification(for: $0) }
+
+        reminders.removeAll { reminder in
+            itemsToDelete.contains(reminder)
+        }
     }
 }
 

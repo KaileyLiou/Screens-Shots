@@ -7,6 +7,10 @@
 
 import Foundation
 
+// builds a personalized schedule of vaccine/screening reminders based on the
+// user's profile (age, gender, dob). follows cdc/acs guidelines instead of
+// pulling from an api or ai since this is medical info and needs to be
+// accurate + the same every time
 struct VaccineRecommendations {
 
     static func recommendedReminders(for profile: Profile) -> [Reminder] {
@@ -17,6 +21,9 @@ struct VaccineRecommendations {
         let age = profile.age
         let gender = profile.gender
 
+        // builds one reminder at some offset from the user's birthday.
+        // months for early childhood stuff (those are scheduled every
+        // few months) and years for everything after
         func makeReminder(title: String, type: String, monthsFromBirthday: Int = 0, yearsFromBirthday: Int = 0) -> Reminder {
             var date = dob
             if monthsFromBirthday > 0 {
@@ -25,6 +32,9 @@ struct VaccineRecommendations {
             if yearsFromBirthday > 0 {
                 date = calendar.date(byAdding: .year, value: yearsFromBirthday, to: dob) ?? date
             }
+            // if this milestone already happened in the past (like a user who's
+            // 30 hitting the "vaccine at age 2" one) just push it to today so
+            // it still shows up as something to do
             let targetDate = max(date, today)
             return Reminder(title: title, date: targetDate, type: type)
         }
@@ -129,6 +139,8 @@ struct VaccineRecommendations {
             reminders.append(makeReminder(title: "Osteoporosis Screening", type: "Screening", yearsFromBirthday: 65))
         }
 
+        // only show stuff that hasn't already passed, soonest first so it
+        // matches whats on the dashboard
         return reminders.filter { $0.date >= today }
             .sorted { $0.date < $1.date }
     }

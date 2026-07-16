@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject private var settingsStore: SettingsStore
     @StateObject private var reminderStore = ReminderStore()
     @StateObject private var profileStore = ProfileStore()
     
     @State private var showingAddReminder = false
     @State private var showingProfile = false
     @State private var showProfileAlert = false
-    @State private var showingSources = false
+    @State private var showingSettings = false
     @State private var showConfirmation = false
 
     var nextReminder: Reminder? {
@@ -84,7 +85,14 @@ struct ContentView: View {
                                     
                                     newReminders.forEach { reminderStore.addIfUnique($0) }
                                     
-                                    newReminders.forEach { NotificationManager.scheduleNotification(for: $0) }
+                                    newReminders.forEach {
+                                        NotificationManager.scheduleNotification(
+                                            for: $0,
+                                            hour: settingsStore.notificationHour,
+                                            minute: settingsStore.notificationMinute,
+                                            enabled: settingsStore.notificationsEnabled
+                                        )
+                                    }
                                     
                                     print("Generated reminders:", reminderStore.reminders.map { $0.title }) // for debugging
                                     
@@ -128,17 +136,6 @@ struct ContentView: View {
                                     background: .white
                                 )
                             }
-
-                            Button {
-                                showingSources = true
-                            } label: {
-                                DashboardCard(
-                                    title: "View Sources",
-                                    subtitle: "Trusted medical references",
-                                    icon: "link",
-                                    background: .white
-                                )
-                            }
                         }
                         .padding(.horizontal)
                         .padding(.bottom, 20)
@@ -153,6 +150,15 @@ struct ContentView: View {
                 }
             }
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button {
+                        showingSettings = true
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                    }
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         showingProfile = true
@@ -165,12 +171,13 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingAddReminder) {
                 AddReminderView(reminderStore: reminderStore)
+                    .environmentObject(settingsStore)
             }
             .sheet(isPresented: $showingProfile) {
                 ProfileView(profile: $profileStore.profile)
             }
-            .sheet(isPresented: $showingSources) {
-                SourcesView()
+            .sheet(isPresented: $showingSettings) {
+                SettingsView(settingsStore: settingsStore, profileStore: profileStore, reminderStore: reminderStore)
             }
         }
     }
@@ -227,4 +234,5 @@ struct DashboardCard: View {
 
 #Preview {
     ContentView()
+        .environmentObject(SettingsStore())
 }

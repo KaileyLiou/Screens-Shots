@@ -8,9 +8,19 @@
 import Foundation
 import UserNotifications
 
+// schedules + cancels local notifications for reminders. uses the reminder's
+// own uuid as the notification's request id, so a reminder always maps to
+// exactly one notification and can be cancelled later just by that id
 struct NotificationManager {
-    
-    static func scheduleNotification(for reminder: Reminder) {
+
+    // hour/minute default to 9am so old calls that don't pass a time still
+    // work the same way they did before settings existed
+    static func scheduleNotification(for reminder: Reminder, hour: Int = 9, minute: Int = 0, enabled: Bool = true) {
+        guard enabled else {
+            print("Notifications disabled in settings; skipping schedule for \(reminder.title)")
+            return
+        }
+
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             guard settings.authorizationStatus == .authorized else {
                 print("Notifications not allowed")
@@ -23,7 +33,8 @@ struct NotificationManager {
             content.sound = .default
             
             var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: reminder.date)
-            dateComponents.hour = 9
+            dateComponents.hour = hour
+            dateComponents.minute = minute
             
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
             
@@ -42,9 +53,15 @@ struct NotificationManager {
                 if let error = error {
                     print("Failed to schedule notification: \(error)")
                 } else {
-                    print("Notification scheduled for \(reminder.title) at 9 AM on \(reminder.date)")
+                    print("Notification scheduled for \(reminder.title) at \(hour):\(String(format: "%02d", minute)) on \(reminder.date)")
                 }
             }
         }
+    }
+
+    // called when a reminder gets deleted so its notification doesn't fire
+    // for something that doesn't exist anymore
+    static func cancelNotification(for reminder: Reminder) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [reminder.id.uuidString])
     }
 }

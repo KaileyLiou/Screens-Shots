@@ -9,11 +9,13 @@ import SwiftUI
 
 struct AddReminderView: View {
     @ObservedObject var reminderStore: ReminderStore
+    @EnvironmentObject private var settingsStore: SettingsStore
     @Environment(\.dismiss) var dismiss
     
     @State private var title = ""
     @State private var date = Date()
     @State private var type = "Vaccine"
+    @FocusState private var titleFieldIsFocused: Bool
     
     var canSave: Bool {
         !title.trimmingCharacters(in: .whitespaces).isEmpty
@@ -24,6 +26,9 @@ struct AddReminderView: View {
             ZStack {
                 Color(red: 0.97, green: 0.96, blue: 0.92)
                     .ignoresSafeArea()
+                    .onTapGesture {
+                        titleFieldIsFocused = false
+                    }
                 
                 VStack {
                     Text("New Reminder")
@@ -35,6 +40,9 @@ struct AddReminderView: View {
                     
                     VStack(spacing: 20) {
                         TextField("Enter reminder title", text: $title)
+                            .focused($titleFieldIsFocused)
+                            .submitLabel(.done)
+                            .onSubmit { titleFieldIsFocused = false }
                             .padding()
                             .background(Color(red: 0.95, green: 0.95, blue: 0.95))
                             .cornerRadius(10)
@@ -65,7 +73,12 @@ struct AddReminderView: View {
                     Button(action: {
                         let newReminder = Reminder(title: title, date: date, type: type)
                         reminderStore.addIfUnique(newReminder)
-                        NotificationManager.scheduleNotification(for: newReminder)
+                        NotificationManager.scheduleNotification(
+                            for: newReminder,
+                            hour: settingsStore.notificationHour,
+                            minute: settingsStore.notificationMinute,
+                            enabled: settingsStore.notificationsEnabled
+                        )
                         dismiss()
                     }) {
                         Text("Save Reminder")
@@ -89,6 +102,12 @@ struct AddReminderView: View {
                     }
                     .foregroundColor(.black.opacity(0.8))
                 }
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        titleFieldIsFocused = false
+                    }
+                }
             }
         }
     }
@@ -96,4 +115,5 @@ struct AddReminderView: View {
 
 #Preview {
     AddReminderView(reminderStore: ReminderStore())
+        .environmentObject(SettingsStore())
 }
