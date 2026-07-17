@@ -82,8 +82,17 @@ struct ContentView: View {
                                     showProfileAlert = true
                                 } else {
                                     let newReminders = VaccineRecommendations.recommendedReminders(for: profileStore.profile)
-                                    
-                                    newReminders.forEach { reminderStore.addIfUnique($0) }
+
+                                    // clear out the old auto-generated ones first, so editing the
+                                    // profile (age, gender, conditions, etc) and regenerating fully
+                                    // replaces the old recommendations instead of piling new ones
+                                    // on top of stale ones. anything the user added by hand via
+                                    // add reminder has isGenerated == false, so it's never touched
+                                    let staleGenerated = reminderStore.reminders.filter { $0.isGenerated }
+                                    staleGenerated.forEach { NotificationManager.cancelNotification(for: $0) }
+                                    reminderStore.reminders.removeAll { $0.isGenerated }
+
+                                    newReminders.forEach { reminderStore.reminders.append($0) }
                                     
                                     newReminders.forEach {
                                         NotificationManager.scheduleNotification(

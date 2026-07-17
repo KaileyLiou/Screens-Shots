@@ -71,7 +71,7 @@ struct AddReminderView: View {
                     Spacer(minLength: 20)
                     
                     Button(action: {
-                        let newReminder = Reminder(title: title, date: date, type: type)
+                        let newReminder = Reminder(title: title, date: date, type: type, isGenerated: false)
                         reminderStore.addIfUnique(newReminder)
                         NotificationManager.scheduleNotification(
                             for: newReminder,

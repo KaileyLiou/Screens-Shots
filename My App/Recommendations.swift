@@ -36,12 +36,26 @@ struct VaccineRecommendations {
             // 30 hitting the "vaccine at age 2" one) just push it to today so
             // it still shows up as something to do
             let targetDate = max(date, today)
-            return Reminder(title: title, date: targetDate, type: type)
+            return Reminder(title: title, date: targetDate, type: type, isGenerated: true)
+        }
+
+        // for stuff that actually repeats on a schedule (annual flu shot, a
+        // screening every few years) instead of a one-time childhood milestone.
+        // walks forward in interval-sized jumps from the anchor age until it
+        // finds a date that hasn't happened yet, so these land on a real future
+        // date instead of every single one collapsing onto today the way a
+        // one-time milestone does with the plain clamp above
+        func makeRecurringReminder(title: String, type: String, anchorYearsFromBirthday: Int, intervalYears: Int) -> Reminder {
+            var date = calendar.date(byAdding: .year, value: anchorYearsFromBirthday, to: dob) ?? dob
+            while date < today {
+                date = calendar.date(byAdding: .year, value: intervalYears, to: date) ?? date
+            }
+            return Reminder(title: title, date: date, type: type, isGenerated: true)
         }
 
         // Flu Shot (Annual). Note: as of the 2026 cdc update this is a shared
         // decision-making recommendation rather than a blanket one for everyone
-        reminders.append(makeReminder(title: "Flu Shot (Annual, ask your doctor)", type: "Vaccine", yearsFromBirthday: age))
+        reminders.append(makeRecurringReminder(title: "Flu Shot (Annual, ask your doctor)", type: "Vaccine", anchorYearsFromBirthday: 0, intervalYears: 1))
 
         // Infant vaccines (multi-dose)
         if age < 1 {
@@ -116,7 +130,7 @@ struct VaccineRecommendations {
         }
 
         if age >= 19 {
-            reminders.append(makeReminder(title: "Tdap Booster (Every 10 Years)", type: "Vaccine", yearsFromBirthday: 19))
+            reminders.append(makeRecurringReminder(title: "Tdap Booster (Every 10 Years)", type: "Vaccine", anchorYearsFromBirthday: 19, intervalYears: 10))
         }
 
         if age >= 50 {
@@ -138,19 +152,19 @@ struct VaccineRecommendations {
         // cervical screening stops around 65 if someone's been adequately screened
         // before then, per uspstf, so this needed an upper bound it didn't have before
         if gender == "Female" && age >= 21 && age <= 65 {
-            reminders.append(makeReminder(title: "Cervical Cancer Screening (Pap Smear every 3 years)", type: "Screening", yearsFromBirthday: 21))
+            reminders.append(makeRecurringReminder(title: "Cervical Cancer Screening (Pap Smear every 3 years)", type: "Screening", anchorYearsFromBirthday: 21, intervalYears: 3))
         }
         if gender == "Female" && age >= 40 {
-            reminders.append(makeReminder(title: "Mammogram (every 2 years)", type: "Screening", yearsFromBirthday: 40))
+            reminders.append(makeRecurringReminder(title: "Mammogram (every 2 years)", type: "Screening", anchorYearsFromBirthday: 40, intervalYears: 2))
         }
         if age >= 45 {
-            reminders.append(makeReminder(title: "Colorectal Cancer Screening (every 3 years)", type: "Screening", yearsFromBirthday: 45))
+            reminders.append(makeRecurringReminder(title: "Colorectal Cancer Screening (every 3 years)", type: "Screening", anchorYearsFromBirthday: 45, intervalYears: 3))
         }
         if age >= 20 {
-            reminders.append(makeReminder(title: "Cholesterol Screening (every 5 years)", type: "Screening", yearsFromBirthday: 20))
+            reminders.append(makeRecurringReminder(title: "Cholesterol Screening (every 5 years)", type: "Screening", anchorYearsFromBirthday: 20, intervalYears: 5))
         }
         if age >= 18 {
-            reminders.append(makeReminder(title: "Blood Pressure Check (every 2 years)", type: "Screening", yearsFromBirthday: 18))
+            reminders.append(makeRecurringReminder(title: "Blood Pressure Check (every 2 years)", type: "Screening", anchorYearsFromBirthday: 18, intervalYears: 2))
         }
         if gender == "Female" && age >= 65 {
             reminders.append(makeReminder(title: "Osteoporosis Screening", type: "Screening", yearsFromBirthday: 65))
@@ -181,7 +195,7 @@ struct VaccineRecommendations {
         // diabetes needs a yearly dilated eye exam to catch retinopathy early,
         // regardless of age, this is standard ADA guidance
         if conditionsText.contains("diabetes") {
-            reminders.append(makeReminder(title: "Diabetic Eye Exam (Annual)", type: "Screening", yearsFromBirthday: age))
+            reminders.append(makeRecurringReminder(title: "Diabetic Eye Exam (Annual)", type: "Screening", anchorYearsFromBirthday: 0, intervalYears: 1))
         }
 
         // family history can justify starting some screenings earlier than the
