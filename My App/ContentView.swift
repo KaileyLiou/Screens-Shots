@@ -29,6 +29,14 @@ struct ContentView: View {
         reminderStore.reminders.filter { $0.date.isTodayOrLater() }.count
     }
 
+    // used for the small factual summary line on the dashboard, just a plain
+    // count from real reminder data, not a fabricated stat
+    var next30DaysCount: Int {
+        let calendar = Calendar.current
+        guard let thirtyDaysOut = calendar.date(byAdding: .day, value: 30, to: Date()) else { return 0 }
+        return reminderStore.reminders.filter { $0.date.isTodayOrLater() && $0.date <= thirtyDaysOut }.count
+    }
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -74,6 +82,12 @@ struct ContentView: View {
                                 foregroundColor: .white
                             )
                             .padding(.horizontal)
+                        }
+
+                        if next30DaysCount > 0 {
+                            Text("\(next30DaysCount) reminder\(next30DaysCount == 1 ? "" : "s") in the next 30 days")
+                                .font(.subheadline)
+                                .foregroundColor(.white.opacity(0.75))
                         }
 
                         VStack(spacing: 15) {
@@ -169,35 +183,35 @@ struct ContentView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack(spacing: 10) {
-                        // grouped together on one side instead of floating on opposite
-                        // corners (that's what was giving it the "mickey mouse ears" look),
-                        // and styled to match the same icon-circle language used on the
-                        // dashboard cards below
-                        Button {
-                            showingSettings = true
-                        } label: {
-                            Image(systemName: "gearshape.fill")
-                                .font(.system(size: 16, weight: .semibold))
-                                .foregroundColor(.white)
-                                .frame(width: 34, height: 34)
-                                .background(Color.white.opacity(0.18))
-                                .clipShape(Circle())
-                        }
-                        .buttonStyle(PressableButtonStyle())
-
-                        Button {
-                            showingProfile = true
-                        } label: {
-                            Image(systemName: "person.fill")
-                                .font(.system(size: 16, weight: .semibold))
-                                .foregroundColor(.white)
-                                .frame(width: 34, height: 34)
-                                .background(Color.white.opacity(0.18))
-                                .clipShape(Circle())
-                        }
-                        .buttonStyle(PressableButtonStyle())
+                    // separate toolbar items (not one shared HStack) so each button
+                    // gets its own independent touch highlight — grouping both into
+                    // a single toolbar item was making ios treat the pair as one
+                    // combined tap target, so pressing either one visually reacted
+                    // together instead of just the one actually tapped
+                    Button {
+                        showingProfile = true
+                    } label: {
+                        Image(systemName: "person.fill")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(.white)
+                            .frame(width: 34, height: 34)
+                            .background(Color.white.opacity(0.18))
+                            .clipShape(Circle())
                     }
+                    .buttonStyle(PressableButtonStyle())
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showingSettings = true
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(.white)
+                            .frame(width: 34, height: 34)
+                            .background(Color.white.opacity(0.18))
+                            .clipShape(Circle())
+                    }
+                    .buttonStyle(PressableButtonStyle())
                 }
             }
             .sheet(isPresented: $showingAddReminder) {
