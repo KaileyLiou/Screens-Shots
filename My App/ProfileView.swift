@@ -140,6 +140,10 @@ struct ProfileView: View {
 
                 }
                 .padding()
+                // same width cap as the dashboard, keeps the form from stretching
+                // uncomfortably wide on ipad
+                .frame(maxWidth: 600)
+                .frame(maxWidth: .infinity)
             }
             .background(Color.background)
             .toolbar {

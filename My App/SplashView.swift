@@ -9,6 +9,14 @@ import SwiftUI
 
 struct SplashView: View {
     @State private var isActive = false
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
+    // ipad reports "regular" here, iphone reports "compact", so this bumps
+    // the logo up a bit on ipad instead of it looking tiny and lost on the
+    // much bigger screen
+    private var logoSize: CGFloat {
+        horizontalSizeClass == .regular ? 220 : 150
+    }
 
     var body: some View {
         if isActive {
@@ -19,7 +27,7 @@ struct SplashView: View {
                 Image("SplashLogo")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 150, height: 150)
+                    .frame(width: logoSize, height: logoSize)
                     .opacity(isActive ? 0 : 1)
             }
             .onAppear {

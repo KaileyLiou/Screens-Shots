@@ -28,6 +28,9 @@ struct SourcesView: View {
                         SourceCard(title: "USPSTF A & B Recommendations", url: "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation-topics/uspstf-a-and-b-recommendations")
                     }
                     .padding()
+                    // same width cap as the other main screens
+                    .frame(maxWidth: 600)
+                    .frame(maxWidth: .infinity)
                 }
             }
 //            .navigationTitle("Sources")

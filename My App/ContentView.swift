@@ -136,7 +136,7 @@ struct ContentView: View {
                             }
 
                             NavigationLink {
-                                AllRemindersView(reminders: $reminderStore.reminders)
+                                AllRemindersView(reminderStore: reminderStore)
                             } label: {
                                 DashboardCard(
                                     title: "View All Reminders",
@@ -156,6 +156,12 @@ struct ContentView: View {
                             .multilineTextAlignment(.center)
                             .padding(.bottom, 40)
                     }
+                    // caps how wide the dashboard content gets and centers it, so on an
+                    // ipad's much wider screen the cards stay a comfortable reading width
+                    // instead of stretching all the way across. on iphone this has no
+                    // effect since the screen is already narrower than the cap
+                    .frame(maxWidth: 600)
+                    .frame(maxWidth: .infinity)
                 }
             }
             .toolbar {

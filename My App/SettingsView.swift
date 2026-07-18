@@ -58,6 +58,7 @@ struct SettingsView: View {
                             Label("View Sources", systemImage: "link")
                                 .foregroundColor(.accentGreen)
                         }
+                        .buttonStyle(.plain)
 
                         Divider()
 
@@ -70,18 +71,24 @@ struct SettingsView: View {
                     }
 
                     SettingsSection(title: "Reset") {
-                        Button(role: .destructive) {
+                        Button {
                             showingDeleteConfirmation = true
                         } label: {
                             Label("Delete All Data", systemImage: "trash.fill")
+                                .foregroundColor(.red)
                         }
+                        .buttonStyle(.plain)
 
-                        Text("This clears your profile and every reminder, and can't be undone.")
+                        Text("This clears your profile and every reminder and can't be undone.")
                             .font(.caption)
                             .foregroundColor(.gray)
                     }
                 }
                 .padding()
+                // same width cap as the other main screens, keeps settings from
+                // stretching too wide on ipad
+                .frame(maxWidth: 600)
+                .frame(maxWidth: .infinity)
             }
             .background(Color.background)
             .toolbar {

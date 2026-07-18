@@ -11,16 +11,28 @@ struct AddReminderView: View {
     @ObservedObject var reminderStore: ReminderStore
     @EnvironmentObject private var settingsStore: SettingsStore
     @Environment(\.dismiss) var dismiss
-    
-    @State private var title = ""
-    @State private var date = Date()
-    @State private var type = "Vaccine"
+
+    // if this is set, the form is editing an existing reminder instead of
+    // creating a new one. nil means "new reminder" (the original behavior)
+    var editingReminder: Reminder?
+
+    @State private var title: String
+    @State private var date: Date
+    @State private var type: String
     @FocusState private var titleFieldIsFocused: Bool
-    
+
+    init(reminderStore: ReminderStore, editingReminder: Reminder? = nil) {
+        self.reminderStore = reminderStore
+        self.editingReminder = editingReminder
+        _title = State(initialValue: editingReminder?.title ?? "")
+        _date = State(initialValue: editingReminder?.date ?? Date())
+        _type = State(initialValue: editingReminder?.type ?? "Vaccine")
+    }
+
     var canSave: Bool {
         !title.trimmingCharacters(in: .whitespaces).isEmpty
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -31,7 +43,7 @@ struct AddReminderView: View {
                     }
                 
                 VStack {
-                    Text("New Reminder")
+                    Text(editingReminder == nil ? "New Reminder" : "Edit Reminder")
                         .font(.system(size: 28, weight: .semibold, design: .rounded))
                         .foregroundColor(.black.opacity(0.8))
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -71,17 +83,34 @@ struct AddReminderView: View {
                     Spacer(minLength: 20)
                     
                     Button(action: {
-                        let newReminder = Reminder(title: title, date: date, type: type, isGenerated: false)
-                        reminderStore.addIfUnique(newReminder)
-                        NotificationManager.scheduleNotification(
-                            for: newReminder,
-                            hour: settingsStore.notificationHour,
-                            minute: settingsStore.notificationMinute,
-                            enabled: settingsStore.notificationsEnabled
-                        )
+                        if let existing = editingReminder {
+                            // editing: cancel whatever was scheduled under the old date,
+                            // swap the reminder in place (keeping its original id and
+                            // isGenerated flag), then reschedule under the new details
+                            NotificationManager.cancelNotification(for: existing)
+                            let updated = Reminder(id: existing.id, title: title, date: date, type: type, isGenerated: existing.isGenerated)
+                            if let index = reminderStore.reminders.firstIndex(where: { $0.id == existing.id }) {
+                                reminderStore.reminders[index] = updated
+                            }
+                            NotificationManager.scheduleNotification(
+                                for: updated,
+                                hour: settingsStore.notificationHour,
+                                minute: settingsStore.notificationMinute,
+                                enabled: settingsStore.notificationsEnabled
+                            )
+                        } else {
+                            let newReminder = Reminder(title: title, date: date, type: type, isGenerated: false)
+                            reminderStore.addIfUnique(newReminder)
+                            NotificationManager.scheduleNotification(
+                                for: newReminder,
+                                hour: settingsStore.notificationHour,
+                                minute: settingsStore.notificationMinute,
+                                enabled: settingsStore.notificationsEnabled
+                            )
+                        }
                         dismiss()
                     }) {
-                        Text("Save Reminder")
+                        Text(editingReminder == nil ? "Save Reminder" : "Save Changes")
                             .fontWeight(.bold)
                             .frame(maxWidth: 300)
                             .padding()
@@ -94,6 +123,10 @@ struct AddReminderView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.bottom, 30)
                 }
+                // caps how wide the form gets on ipad's larger screen, same
+                // pattern used on the other main screens
+                .frame(maxWidth: 600)
+                .frame(maxWidth: .infinity)
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
