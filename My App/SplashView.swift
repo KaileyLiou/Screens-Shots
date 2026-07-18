@@ -11,9 +11,7 @@ struct SplashView: View {
     @State private var isActive = false
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-    // ipad reports "regular" here, iphone reports "compact", so this bumps
-    // the logo up a bit on ipad instead of it looking tiny and lost on the
-    // much bigger screen
+    // this bumps the logo up a bit on ipad instead of it looking tiny and lost on the much bigger screen
     private var logoSize: CGFloat {
         horizontalSizeClass == .regular ? 220 : 150
     }

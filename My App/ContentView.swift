@@ -29,8 +29,8 @@ struct ContentView: View {
         reminderStore.reminders.filter { $0.date.isTodayOrLater() }.count
     }
 
-    // used for the small factual summary line on the dashboard, just a plain
-    // count from real reminder data, not a fabricated stat
+    // used for the small summary line on the dashboard, just a count from
+    // the real reminder data
     var next30DaysCount: Int {
         let calendar = Calendar.current
         guard let thirtyDaysOut = calendar.date(byAdding: .day, value: 30, to: Date()) else { return 0 }
@@ -45,10 +45,8 @@ struct ContentView: View {
                 
                 ScrollView {
                     VStack(spacing: 25) {
-                        // buttons get their own row above the title now, instead of
-                        // layering on top of it — that overlap happened because the
-                        // title text renders at its natural width regardless of padding
-                        // tricks, so sharing the same line was never going to be reliable
+                        // buttons get their own row above the title now, instead of layering on top of it
+                        // overlap happened because the title text renders at its natural width regardless of padding, so sharing the same line was never going to work
                         HStack {
                             Spacer()
                             Button {
@@ -278,7 +276,7 @@ struct DashboardCard: View {
     }
 }
 
-// subtle press feedback: shrinks and dims very slightly while held down,
+// button shrinks and dims very slightly while held down,
 // springs back on release. used on the tappable dashboard cards and the
 // settings/profile icon buttons so tapping something actually feels
 // responsive instead of static

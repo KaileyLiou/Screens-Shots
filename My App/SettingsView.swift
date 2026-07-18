@@ -43,7 +43,7 @@ struct SettingsView: View {
                     }
 
                     SettingsSection(title: "Appearance") {
-                        // this looks like a segmented control but isn't interactive.
+                        // this looks like a segmented control but isn't interactive
                         // dark mode's colors aren't fully adaptive yet, so rather than
                         // let someone pick System or Dark and land on a half-broken
                         // screen, only Light actually does anything right now. kept

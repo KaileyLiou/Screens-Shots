@@ -10,7 +10,7 @@ import UserNotifications
 
 // by default ios hides local notification banners while the app is open in
 // the foreground (so testing with the app open and watching for it looks
-// like nothing happened, even though it technically fired). this delegate
+// like nothing happened, even though it technically fired). this code
 // tells ios to show the banner + play the sound even while the app is open,
 // which is mainly here to make testing/demoing actually visible
 class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {

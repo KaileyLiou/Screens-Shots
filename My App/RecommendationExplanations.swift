@@ -7,21 +7,17 @@
 
 import Foundation
 
-// plain-language "why this matters" text for each recommendation, written
-// once ahead of time and baked into the app instead of generated live by an
+// simple text explanation for each recommendation, written
+// once ahead of time and incorporated into the app instead of generated live by an
 // AI at runtime. a live API call would mean putting an API key inside the
-// shipped app (a real security risk anyone could extract) and relying on a
-// network call for a health app that should work the same way every time —
-// so this stays a simple, reliable lookup instead.
+// shipped app and relying on a network call, so this is more simple and reliable
 //
 // matched by checking if a reminder's title contains one of these key
-// phrases, most specific phrases checked first so something like "Discuss
-// Earlier Mammogram Screening" doesn't accidentally match the shorter,
-// more generic "Mammogram" entry instead.
+// phrases, most specific phrases checked first
 struct RecommendationExplanations {
 
     private static let entries: [(match: String, text: String)] = [
-        // most specific / family-history-driven ones go first
+        // most specific/family-history ones go first
         ("Discuss Earlier Mammogram Screening", "If breast cancer runs in your family, starting mammograms earlier than the usual age of 40 is sometimes recommended. This is a conversation to have with a doctor, since the right starting age depends on details like how old your relative was at diagnosis."),
         ("Discuss Earlier Colorectal Screening", "A family history of colorectal cancer can mean starting screening earlier than the usual age of 45. Like the mammogram case, the right starting point depends on your specific family history, so this is worth a direct conversation with a doctor."),
         ("Diabetic Eye Exam", "Diabetes can damage blood vessels in the retina over time, sometimes without any noticeable symptoms at first. An annual dilated eye exam catches this early, when it's most treatable."),

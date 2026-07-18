@@ -19,7 +19,7 @@ struct Reminder: Identifiable, Codable, Equatable {
 
     // true if this came from generate recommendations, false if the user
     // typed it in themselves via add reminder. lets us tell the two apart,
-    // e.g. so changing your profile and regenerating only replaces the
+    // so changing your profile and regenerating only replaces the
     // automatic ones and never touches anything you added by hand
     var isGenerated: Bool
 

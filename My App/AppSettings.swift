@@ -26,8 +26,8 @@ enum AppearanceMode: String, CaseIterable, Identifiable, Codable {
     }
 }
 
-// holds everything from the settings screen and saves to UserDefaults right
-// away, same pattern as ProfileStore/ReminderStore
+// holds everything from the settings screen and saves to UserDefaults right away
+// same pattern as ProfileStore/ReminderStore
 class SettingsStore: ObservableObject {
     @Published var notificationHour: Int {
         didSet { UserDefaults.standard.set(notificationHour, forKey: "notification_hour") }
@@ -42,8 +42,7 @@ class SettingsStore: ObservableObject {
         didSet { UserDefaults.standard.set(appearanceMode.rawValue, forKey: "appearance_mode") }
     }
 
-    // DatePicker needs an actual Date to bind to but the rest of the app just
-    // uses hour/minute ints, this bridges the two
+    // DatePicker needs an actual date to bind to but the rest of the app just uses hour/minute ints
     var notificationTime: Date {
         get {
             Calendar.current.date(bySettingHour: notificationHour, minute: notificationMinute, second: 0, of: Date()) ?? Date()

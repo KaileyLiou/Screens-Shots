@@ -21,7 +21,7 @@ struct VaccineRecommendations {
         let age = profile.age
         let gender = profile.gender
 
-        // builds one reminder at some offset from the user's birthday.
+        // builds one reminder at some offset from the user's birthday
         // months for early childhood stuff (those are scheduled every
         // few months) and years for everything after
         func makeReminder(title: String, type: String, monthsFromBirthday: Int = 0, yearsFromBirthday: Int = 0) -> Reminder {
@@ -32,7 +32,7 @@ struct VaccineRecommendations {
             if yearsFromBirthday > 0 {
                 date = calendar.date(byAdding: .year, value: yearsFromBirthday, to: dob) ?? date
             }
-            // if this milestone already happened in the past (like a user who's
+            // if this already happened in the past (like a user who's
             // 30 hitting the "vaccine at age 2" one) just push it to today so
             // it still shows up as something to do
             let targetDate = max(date, today)
@@ -40,8 +40,8 @@ struct VaccineRecommendations {
         }
 
         // for stuff that actually repeats on a schedule (annual flu shot, a
-        // screening every few years) instead of a one-time childhood milestone.
-        // walks forward in interval-sized jumps from the anchor age until it
+        // screening every few years) instead of a one-time childhood milestone
+        
         // finds a date that hasn't happened yet, so these land on a real future
         // date instead of every single one collapsing onto today the way a
         // one-time milestone does with the plain clamp above
@@ -77,9 +77,9 @@ struct VaccineRecommendations {
                 makeReminder(title: "IPV Vaccine (6 months)", type: "Vaccine", monthsFromBirthday: 6),
 
                 // Hib
-                // note: exact schedule depends on the brand your doctor uses. some (like
-                // ActHib/Pentacel) give a dose at 6 months, others (PedvaxHIB) skip straight
-                // to 12-15 months. showing the more common 4-dose version here
+                // note: exact schedule depends on the brand your doctor uses. some give a dose at 6 months,
+                // others skip straight to 12-15 months
+                // showing the more common 4-dose version here
                 makeReminder(title: "Hib Vaccine (2 months)", type: "Vaccine", monthsFromBirthday: 2),
                 makeReminder(title: "Hib Vaccine (4 months)", type: "Vaccine", monthsFromBirthday: 4),
                 makeReminder(title: "Hib Vaccine (6 months, if applicable)", type: "Vaccine", monthsFromBirthday: 6),
@@ -92,7 +92,6 @@ struct VaccineRecommendations {
                 makeReminder(title: "PCV Vaccine (12 months)", type: "Vaccine", monthsFromBirthday: 12),
 
                 // Rotavirus, now a shared decision-making vaccine as of the 2026 cdc update
-                // rather than a blanket recommendation
                 makeReminder(title: "Rotavirus Vaccine (2 months, ask your doctor)", type: "Vaccine", monthsFromBirthday: 2),
                 makeReminder(title: "Rotavirus Vaccine (4 months, ask your doctor)", type: "Vaccine", monthsFromBirthday: 4),
                 makeReminder(title: "Rotavirus Vaccine (6 months, ask your doctor)", type: "Vaccine", monthsFromBirthday: 6)
@@ -101,7 +100,7 @@ struct VaccineRecommendations {
 
         // Toddlers/children vaccines
         // note: as of the jan 2026 cdc schedule update, hepatitis a for kids moved from a
-        // blanket recommendation to risk-based/shared decision-making, so wording it softer
+        // recommendation to risk-based/shared decision-making, so wording it softer
         // instead of stating it as a flat requirement
         if age >= 1 && age < 2 {
             reminders.append(contentsOf: [
@@ -138,8 +137,7 @@ struct VaccineRecommendations {
         }
 
         if age >= 60 {
-            // shared decision-making, not a blanket recommendation, so this one leans
-            // on "ask your doctor" more than most
+            // shared decision-making, not a fixed recommendation, so this one is more like "ask your doctor"
             reminders.append(makeReminder(title: "RSV Vaccine (60+, ask your doctor)", type: "Vaccine", yearsFromBirthday: 60))
         }
 
@@ -150,7 +148,7 @@ struct VaccineRecommendations {
 
         // Screenings
         // cervical screening stops around 65 if someone's been adequately screened
-        // before then, per uspstf, so this needed an upper bound it didn't have before
+        // before then, so this needed an upper bound it didn't have before
         if gender == "Female" && age >= 21 && age <= 65 {
             reminders.append(makeRecurringReminder(title: "Cervical Cancer Screening (Pap Smear every 3 years)", type: "Screening", anchorYearsFromBirthday: 21, intervalYears: 3))
         }
@@ -178,16 +176,16 @@ struct VaccineRecommendations {
         if age >= 18 && age <= 79 {
             reminders.append(makeReminder(title: "Hepatitis C Screening (once, ages 18-79)", type: "Screening", yearsFromBirthday: 18))
         }
-        // grade c, individualized decision rather than a blanket yes, so this
+        // grade c, individualized decision rather than a fixed thing, so this
         // is worded as a conversation to have rather than a definite screening.
-        // added so male users get a sex-specific item too, same as female users
+        // added so male users get a specific item too, same as female users
         // already do with mammogram/cervical/osteoporosis
         if gender == "Male" && age >= 55 && age <= 69 {
             reminders.append(makeReminder(title: "Prostate Cancer Screening Discussion (55-69, ask your doctor)", type: "Screening", yearsFromBirthday: 55))
         }
 
         // Conditions + family history based additions.
-        // this is a first pass, not exhaustive, just a few well-established
+        // this is a first pass, just a few well-established
         // extra checks for the conditions/history people actually tend to enter
         let conditionsText = profile.conditions.joined(separator: " ").lowercased()
         let familyHistoryText = profile.familyHistory.lowercased()

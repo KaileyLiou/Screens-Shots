@@ -13,7 +13,7 @@ struct AddReminderView: View {
     @Environment(\.dismiss) var dismiss
 
     // if this is set, the form is editing an existing reminder instead of
-    // creating a new one. nil means "new reminder" (the original behavior)
+    // creating a new one, nil means "new reminder" (the original behavior)
     var editingReminder: Reminder?
 
     @State private var title: String
@@ -86,8 +86,7 @@ struct AddReminderView: View {
                         Button(action: {
                             if let existing = editingReminder {
                                 // editing: cancel whatever was scheduled under the old date,
-                                // swap the reminder in place (keeping its original id and
-                                // isGenerated flag), then reschedule under the new details
+                                // swap the reminder in place, then reschedule under the new details
                                 NotificationManager.cancelNotification(for: existing)
                                 let updated = Reminder(id: existing.id, title: title, date: date, type: type, isGenerated: existing.isGenerated)
                                 if let index = reminderStore.reminders.firstIndex(where: { $0.id == existing.id }) {
@@ -125,8 +124,8 @@ struct AddReminderView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.bottom, 30)
                     }
-                    // caps how wide the form gets on ipad's larger screen, same
-                    // pattern used on the other main screens
+                    // caps how wide the form gets on ipad's larger screen
+                    // same pattern used on the other main screens
                     .frame(maxWidth: 600)
                     .frame(maxWidth: .infinity)
                 }
@@ -146,9 +145,9 @@ struct AddReminderView: View {
                 }
             }
             // on ipad, .sheet() defaults to a smaller floating panel instead of
-            // full screen like iphone gets automatically. forcing the large
-            // detent makes it take the full height on both instead of clipping
-            // the form's content inside a too-small panel
+            // full screen like iphone does automatically
+            // makes it take the full height on both instead of clipping the
+            // form's content inside a too-small panel
             .presentationDetents([.large])
         }
     }
