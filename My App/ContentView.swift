@@ -45,6 +45,43 @@ struct ContentView: View {
                 
                 ScrollView {
                     VStack(spacing: 25) {
+                        // buttons get their own row above the title now, instead of
+                        // layering on top of it — that overlap happened because the
+                        // title text renders at its natural width regardless of padding
+                        // tricks, so sharing the same line was never going to be reliable
+                        HStack {
+                            Spacer()
+                            Button {
+                                showingProfile = true
+                            } label: {
+                                Image(systemName: "person.fill")
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundColor(.white)
+                                    .frame(width: 40, height: 40)
+                                    .background(Color.white.opacity(0.18))
+                                    .clipShape(Circle())
+                            }
+                            .buttonStyle(PressableButtonStyle())
+                            .accessibilityLabel("Profile")
+
+                            Button {
+                                showingSettings = true
+                            } label: {
+                                Image(systemName: "gearshape.fill")
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundColor(.white)
+                                    .frame(width: 40, height: 40)
+                                    .background(Color.white.opacity(0.18))
+                                    .clipShape(Circle())
+                            }
+                            .buttonStyle(PressableButtonStyle())
+                            .accessibilityLabel("Settings")
+                        }
+                        // same .padding(.horizontal) the dashboard cards use below, so the
+                        // settings button's right edge lines up with the cards' right edge
+                        .padding(.horizontal)
+                        .padding(.top, 12)
+
                         VStack(spacing: 10) {
                             Text("Screens + Shots")
                                 .font(.system(size: 36, weight: .bold, design: .rounded))
@@ -60,7 +97,7 @@ struct ContentView: View {
                                     .foregroundColor(.white.opacity(0.85))
                             }
                         }
-                        .padding(.top, 20)
+                        .frame(maxWidth: .infinity)
 
                         if let next = nextReminder {
                             DashboardCard(
@@ -181,39 +218,7 @@ struct ContentView: View {
                     .frame(maxWidth: .infinity)
                 }
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    // separate toolbar items (not one shared HStack) so each button
-                    // gets its own independent touch highlight — grouping both into
-                    // a single toolbar item was making ios treat the pair as one
-                    // combined tap target, so pressing either one visually reacted
-                    // together instead of just the one actually tapped
-                    Button {
-                        showingProfile = true
-                    } label: {
-                        Image(systemName: "person.fill")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.white)
-                            .frame(width: 34, height: 34)
-                            .background(Color.white.opacity(0.18))
-                            .clipShape(Circle())
-                    }
-                    .buttonStyle(PressableButtonStyle())
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showingSettings = true
-                    } label: {
-                        Image(systemName: "gearshape.fill")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.white)
-                            .frame(width: 34, height: 34)
-                            .background(Color.white.opacity(0.18))
-                            .clipShape(Circle())
-                    }
-                    .buttonStyle(PressableButtonStyle())
-                }
-            }
+            .toolbar(.hidden, for: .navigationBar)
             .sheet(isPresented: $showingAddReminder) {
                 AddReminderView(reminderStore: reminderStore)
                     .environmentObject(settingsStore)
