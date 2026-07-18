@@ -115,6 +115,7 @@ struct ContentView: View {
                                     background: .white
                                 )
                             }
+                            .buttonStyle(PressableButtonStyle())
                             .alert("Please create a profile first", isPresented: $showProfileAlert) {
                                 Button("OK") { showingProfile = true }
                             }
@@ -134,6 +135,7 @@ struct ContentView: View {
                                     background: .white
                                 )
                             }
+                            .buttonStyle(PressableButtonStyle())
 
                             NavigationLink {
                                 AllRemindersView(reminderStore: reminderStore)
@@ -145,6 +147,7 @@ struct ContentView: View {
                                     background: .white
                                 )
                             }
+                            .buttonStyle(PressableButtonStyle())
                         }
                         .padding(.horizontal)
                         .padding(.bottom, 20)
@@ -165,22 +168,35 @@ struct ContentView: View {
                 }
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        showingSettings = true
-                    } label: {
-                        Image(systemName: "gearshape.fill")
-                            .font(.title2)
-                            .foregroundColor(.white)
-                    }
-                }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showingProfile = true
-                    } label: {
-                        Image(systemName: "person.crop.circle")
-                            .font(.title2)
-                            .foregroundColor(.white)
+                    HStack(spacing: 10) {
+                        // grouped together on one side instead of floating on opposite
+                        // corners (that's what was giving it the "mickey mouse ears" look),
+                        // and styled to match the same icon-circle language used on the
+                        // dashboard cards below
+                        Button {
+                            showingSettings = true
+                        } label: {
+                            Image(systemName: "gearshape.fill")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(.white)
+                                .frame(width: 34, height: 34)
+                                .background(Color.white.opacity(0.18))
+                                .clipShape(Circle())
+                        }
+                        .buttonStyle(PressableButtonStyle())
+
+                        Button {
+                            showingProfile = true
+                        } label: {
+                            Image(systemName: "person.fill")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(.white)
+                                .frame(width: 34, height: 34)
+                                .background(Color.white.opacity(0.18))
+                                .clipShape(Circle())
+                        }
+                        .buttonStyle(PressableButtonStyle())
                     }
                 }
             }
@@ -206,8 +222,6 @@ struct DashboardCard: View {
     var foregroundColor: Color = .accentGreen
     var showIndicator: Bool = false
     var indicatorCount: Int = 0
-
-    @State private var isPressed = false
 
     var body: some View {
         HStack(spacing: 16) {
@@ -242,8 +256,19 @@ struct DashboardCard: View {
         .background(background)
         .cornerRadius(15)
         .shadow(color: Color.black.opacity(0.15), radius: 5, x: 0, y: 3)
-        .scaleEffect(isPressed ? 0.97 : 1)
-        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPressed)
+    }
+}
+
+// subtle press feedback: shrinks and dims very slightly while held down,
+// springs back on release. used on the tappable dashboard cards and the
+// settings/profile icon buttons so tapping something actually feels
+// responsive instead of static
+struct PressableButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.92 : 1)
+            .opacity(configuration.isPressed ? 0.8 : 1)
+            .animation(.spring(response: 0.25, dampingFraction: 0.65), value: configuration.isPressed)
     }
 }
 

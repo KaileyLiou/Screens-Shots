@@ -43,12 +43,27 @@ struct SettingsView: View {
                     }
 
                     SettingsSection(title: "Appearance") {
-                        Picker("Appearance", selection: $settingsStore.appearanceMode) {
+                        // this looks like a segmented control but isn't interactive.
+                        // dark mode's colors aren't fully adaptive yet, so rather than
+                        // let someone pick System or Dark and land on a half-broken
+                        // screen, only Light actually does anything right now. kept
+                        // the three-option look since it still fits the section visually
+                        HStack(spacing: 4) {
                             ForEach(AppearanceMode.allCases) { mode in
-                                Text(mode.rawValue).tag(mode)
+                                Text(mode.rawValue)
+                                    .font(.subheadline)
+                                    .fontWeight(mode == .light ? .semibold : .regular)
+                                    .foregroundColor(mode == .light ? .black.opacity(0.85) : .gray.opacity(0.5))
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 8)
+                                    .background(mode == .light ? Color.white : Color.clear)
+                                    .cornerRadius(8)
+                                    .shadow(color: mode == .light ? .black.opacity(0.08) : .clear, radius: 3, x: 0, y: 1)
                             }
                         }
-                        .pickerStyle(SegmentedPickerStyle())
+                        .padding(4)
+                        .background(Color(red: 0.90, green: 0.90, blue: 0.90))
+                        .cornerRadius(10)
                     }
 
                     SettingsSection(title: "About") {
@@ -112,6 +127,8 @@ struct SettingsView: View {
             .sheet(isPresented: $showingSources) {
                 SourcesView()
             }
+            // same ipad sheet-sizing fix as AddReminderView
+            .presentationDetents([.large])
         }
     }
 }

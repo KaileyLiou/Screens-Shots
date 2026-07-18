@@ -36,7 +36,11 @@ struct My_AppApp: App {
         WindowGroup {
             SplashView()
                 .environmentObject(settingsStore)
-                .preferredColorScheme(settingsStore.appearanceMode.colorScheme)
+                // hardcoded to light for now since dark mode's colors aren't
+                // fully adaptive yet. ignoring settingsStore.appearanceMode
+                // here on purpose so nothing can accidentally render broken,
+                // even if someone's device is already set to system dark mode
+                .preferredColorScheme(.light)
         }
     }
 }

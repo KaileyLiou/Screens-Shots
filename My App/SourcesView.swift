@@ -39,6 +39,8 @@ struct SourcesView: View {
                     Button("Close") { dismiss() }
                 }
             }
+            // same ipad sheet-sizing fix as AddReminderView
+            .presentationDetents([.large])
         }
     }
 }

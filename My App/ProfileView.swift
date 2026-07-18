@@ -160,6 +160,8 @@ struct ProfileView: View {
                 conditions = profile.conditions
                 familyHistory = profile.familyHistory
             }
+            // same ipad sheet-sizing fix as AddReminderView
+            .presentationDetents([.large])
         }
     }
 }
