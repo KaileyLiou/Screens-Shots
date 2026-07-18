@@ -168,6 +168,7 @@ struct AllRemindersView: View {
 
 struct ReminderCard: View {
     let reminder: Reminder
+    @State private var showingExplanation = false
     
     var body: some View {
         HStack {
@@ -196,6 +197,24 @@ struct ReminderCard: View {
                     .cornerRadius(8)
             }
             Spacer()
+
+            // a small, separate tap target for "why does this matter" — using
+            // a real Button here (not just another onTapGesture) so it doesn't
+            // get swallowed by the row's own tap-to-edit gesture
+            Button {
+                showingExplanation = true
+            } label: {
+                Image(systemName: "info.circle")
+                    .foregroundColor(.gray.opacity(0.6))
+                    .imageScale(.medium)
+            }
+            .buttonStyle(.plain)
+            .padding(.trailing, 4)
+            .alert(reminder.title, isPresented: $showingExplanation) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(RecommendationExplanations.explanation(for: reminder.title))
+            }
             
             Image(systemName: "bell.fill")
                 .foregroundColor(Color(red: 0.40, green: 0.50, blue: 0.35))
