@@ -1,6 +1,8 @@
 # Screens + Shots
 Screens + Shots is a health reminder app that helps users stay on top of vaccines and cancer screenings. With a simple, personalized profile, the app generates tailored recommendations and highlights the next upcoming health reminder. It is designed to make it easy for both adults and children to stay up to date with important preventive care.
 
+**App Store Link:** [Download Screens + Shots](https://apps.apple.com/app/screens-shots/id6755749446)
+
 ## Technical Features
 - **Personalized recommendations:** Uses a user's age, gender, date of birth, conditions, and family history to inform tailored health guidance based on current CDC/USPSTF guidelines.
 - **Profile management:** Allows users to create, edit, or fully reset their profile data.
@@ -13,12 +15,12 @@ Screens + Shots is a health reminder app that helps users stay on top of vaccine
 
 ## Screenshots
 <p>
-  <img src="https://github.com/user-attachments/assets/f7f3363c-90da-45be-b76f-a9b1d2d78ec9" width="35%" />
-  <img src="https://github.com/user-attachments/assets/fb340e04-6b81-4d64-aa62-a6d9b45b6c03" width="35%" />
+  <img src="https://github.com/user-attachments/assets/dcfa8673-02f9-4cf9-8e8a-c61e27a6e70c" width="35%" />
+  <img src="https://github.com/user-attachments/assets/aa770fb3-100d-4077-9fb4-0c4a30216657" width="35%" />
 </p>
 <p>
-  <img src="https://github.com/user-attachments/assets/38f1b970-6a12-4a17-9e71-dd26e4e67ee8" width="45%" />
-  <img src="https://github.com/user-attachments/assets/36b83d2e-18c5-4e83-880f-b8d2b9e5e606" width="45%" />
+  <img src="https://github.com/user-attachments/assets/fb6c1e42-92e8-4fbc-abb4-9e916bb4cc2f" width="45%" />
+  <img src="https://github.com/user-attachments/assets/82c01bb1-b3f5-4323-bc0b-7a649326f775" width="45%" />
 </p>
 
 ## How It Works
@@ -41,5 +43,3 @@ The app is built entirely in Swift using SwiftUI for a clean and intuitive inter
 
 ## Disclaimer
 This app provides general health information and is not medical advice. Consult a doctor before making decisions.
-
-**App Store Link:** [Download Screens + Shots](https://apps.apple.com/app/screens-shots/id6755749446)
