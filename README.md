@@ -28,7 +28,7 @@ The app is built entirely in Swift using SwiftUI for a clean and intuitive inter
 
 ## Challenges & Lessons Learned
 - **Matching evolving medical rules:** Mapping the code to actual CDC and USPSTF guidelines was a lot harder than expected. For example, during testing, I realized my code didn't have an upper age limit for cervical screenings. I also had to update the logic to handle individualized recommendations based on doctor-patient choice rather than strict due dates following a recent CDC update.
-- **Multi-select delete feature:** Getting the multi-select delete to work without crashing the app was a major hurdle. When a user selected multiple reminders and hit delete, the app's internal list would change while the deletion was still running, which caused index errors. I had to fix this by separating the user's selections from the core data list until the delete action actually finished.
+- **Deleting reminders from filtered lists:** I ran into a bug where deleting a reminder from a filtered list, such as "Upcoming," would sometimes delete the wrong reminder. This happened because the filtered list was ordered differently from the full list of reminders. I fixed the issue by identifying the selected reminder itself instead of relying on its position in the list.
 - **Making it responsive on iPads:** I built the interface using SwiftUI, which works great for iPhones but stretches things out on iPads. I had to learn how to use responsive layout tools so the columns and spacing dynamically adapt depending on the screen size.
 
 ## Future Improvements
