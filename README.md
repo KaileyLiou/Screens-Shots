@@ -16,12 +16,12 @@ Screens + Shots is a health reminder app that helps users stay on top of vaccine
 
 ## Screenshots
 <p>
-  <img src="https://github.com/user-attachments/assets/dcfa8673-02f9-4cf9-8e8a-c61e27a6e70c" width="35%" />
-  <img src="https://github.com/user-attachments/assets/aa770fb3-100d-4077-9fb4-0c4a30216657" width="35%" />
+  <img src="https://github.com/user-attachments/assets/0d17a870-7980-4006-a316-cea73b978b10" width="35%" />
+  <img src="https://github.com/user-attachments/assets/6ee8d00d-1a41-4aec-aec5-c94e5632add2" width="35%" />
 </p>
 <p>
   <img src="https://github.com/user-attachments/assets/fb6c1e42-92e8-4fbc-abb4-9e916bb4cc2f" width="45%" />
-  <img src="https://github.com/user-attachments/assets/82c01bb1-b3f5-4323-bc0b-7a649326f775" width="45%" />
+  <img src="https://github.com/user-attachments/assets/cfb81f93-931e-4445-975a-eff8a0db29ad" width="45%" />
 </p>
 
 ## How It Works
