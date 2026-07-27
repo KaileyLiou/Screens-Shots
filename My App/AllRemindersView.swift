@@ -88,8 +88,10 @@ struct AllRemindersView: View {
                                     .listRowSeparator(.hidden)
                                     .contentShape(Rectangle())
                                     .onTapGesture {
-                                        // outside of multi-select mode, tapping opens the reminder for editing
-                                        // in multi-select mode, list already handles the tap as a selection toggle, so we don't want to also open the edit sheet
+                                        // outside of multi-select mode, tapping opens the
+                                        // reminder for editing. in multi-select mode, List
+                                        // already handles the tap as a selection toggle, so
+                                        // we don't want to also open the edit sheet
                                         if editMode?.wrappedValue != .active {
                                             editingReminder = reminder
                                         }
@@ -175,9 +177,19 @@ struct ReminderCard: View {
                     .font(.headline)
                     .foregroundColor(.black)
                 
-                Text(reminder.date.formatted(date: .abbreviated, time: .omitted))
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+                HStack(spacing: 4) {
+                    Text(reminder.date.formatted(date: .abbreviated, time: .omitted))
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                    if reminder.repeatInterval != .none {
+                        Image(systemName: "repeat")
+                            .font(.caption2)
+                            .foregroundColor(.gray)
+                        Text(reminder.repeatInterval.rawValue)
+                            .font(.caption2)
+                            .foregroundColor(.gray)
+                    }
+                }
                 
                 Text(reminder.type)
                     .font(.caption)
@@ -196,8 +208,9 @@ struct ReminderCard: View {
             }
             Spacer()
 
-            // a small separate tap target for "why does this matter", using
-            // a real button here (not just another ontapgesture)
+            // a small, separate tap target for "why does this matter" — using
+            // a real Button here (not just another onTapGesture) so it doesn't
+            // get swallowed by the row's own tap-to-edit gesture
             Button {
                 showingExplanation = true
             } label: {

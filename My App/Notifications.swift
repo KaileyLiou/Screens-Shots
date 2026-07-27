@@ -50,11 +50,35 @@ struct NotificationManager {
         content.body = "Your \(reminder.title.lowercased()) reminder is today."
         content.sound = .default
 
-        var dateComponents = Calendar.current.dateComponents([.year, .month, .day], from: reminder.date)
+        let calendar = Calendar.current
+        var dateComponents = DateComponents()
         dateComponents.hour = hour
         dateComponents.minute = minute
 
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+        // which date parts get matched (and whether it repeats) depends on
+        // the interval: leaving out year/month/day components is what makes
+        // UNCalendarNotificationTrigger repeat on its own, apple handles the
+        // actual recurrence once we tell it which parts to match
+        let repeats: Bool
+        switch reminder.repeatInterval {
+        case .none:
+            dateComponents.year = calendar.component(.year, from: reminder.date)
+            dateComponents.month = calendar.component(.month, from: reminder.date)
+            dateComponents.day = calendar.component(.day, from: reminder.date)
+            repeats = false
+        case .weekly:
+            dateComponents.weekday = calendar.component(.weekday, from: reminder.date)
+            repeats = true
+        case .monthly:
+            dateComponents.day = calendar.component(.day, from: reminder.date)
+            repeats = true
+        case .yearly:
+            dateComponents.month = calendar.component(.month, from: reminder.date)
+            dateComponents.day = calendar.component(.day, from: reminder.date)
+            repeats = true
+        }
+
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: repeats)
 
 //            let trigger = UNTimeIntervalNotificationTrigger(
 //                timeInterval: 5, // appears in 5 seconds for testing purposes
@@ -71,7 +95,7 @@ struct NotificationManager {
             if let error = error {
                 print("Failed to schedule notification: \(error)")
             } else {
-                print("Notification scheduled for \(reminder.title) at \(hour):\(String(format: "%02d", minute)) on \(reminder.date)")
+                print("Notification scheduled for \(reminder.title) at \(hour):\(String(format: "%02d", minute)), repeats: \(reminder.repeatInterval.rawValue)")
             }
         }
     }

@@ -11,7 +11,8 @@ struct ProfileView: View {
     @Binding var profile: Profile
     @Environment(\.dismiss) var dismiss
 
-    @State private var name = ""
+    @State private var firstName = ""
+    @State private var lastName = ""
     @State private var dateOfBirth = Date()
     @State private var gender = ""
     @State private var conditions: [String] = []
@@ -19,7 +20,8 @@ struct ProfileView: View {
     @State private var familyHistory: String = ""
 
     var canSave: Bool {
-        !name.trimmingCharacters(in: .whitespaces).isEmpty &&
+        // only first name is required, last name is optional
+        !firstName.trimmingCharacters(in: .whitespaces).isEmpty &&
         dateOfBirth <= Date()
     }
 
@@ -36,7 +38,14 @@ struct ProfileView: View {
                         Text("Basic Info")
                             .font(.headline)
 
-                        TextField("Name", text: $name)
+                        TextField("First Name", text: $firstName)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .shadow(color: .black.opacity(0.05), radius: 3, x: 0, y: 2)
+
+                        // optional on purpose, not required to save the profile
+                        TextField("Last Name (optional)", text: $lastName)
                             .padding()
                             .background(Color.white)
                             .cornerRadius(10)
@@ -119,7 +128,8 @@ struct ProfileView: View {
                     }
 
                     Button(action: {
-                        profile.name = name
+                        profile.firstName = firstName
+                        profile.lastName = lastName
                         profile.dateOfBirth = dateOfBirth
                         profile.gender = gender
                         profile.conditions = conditions
@@ -154,7 +164,8 @@ struct ProfileView: View {
                 }
             }
             .onAppear {
-                name = profile.name
+                firstName = profile.firstName
+                lastName = profile.lastName
                 dateOfBirth = profile.dateOfBirth
                 gender = profile.gender
                 conditions = profile.conditions
@@ -167,5 +178,5 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView(profile: .constant(Profile(name: "", dateOfBirth: Date(), gender: "", conditions: [], familyHistory: "")))
+    ProfileView(profile: .constant(Profile(firstName: "", dateOfBirth: Date(), gender: "", conditions: [], familyHistory: "")))
 }

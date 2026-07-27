@@ -85,8 +85,8 @@ struct ContentView: View {
                                 .font(.system(size: 36, weight: .bold, design: .rounded))
                                 .foregroundColor(.white)
                             
-                            if !profileStore.profile.name.isEmpty {
-                                Text("Welcome, \(profileStore.profile.name)!")
+                            if !profileStore.profile.firstName.isEmpty {
+                                Text("Welcome, \(profileStore.profile.firstName)!")
                                     .font(.title2)
                                     .foregroundColor(.white.opacity(0.85))
                             } else {
@@ -127,7 +127,7 @@ struct ContentView: View {
 
                         VStack(spacing: 15) {
                             Button {
-                                if profileStore.profile.name.isEmpty {
+                                if profileStore.profile.firstName.isEmpty {
                                     showProfileAlert = true
                                 } else {
                                     let newReminders = VaccineRecommendations.recommendedReminders(for: profileStore.profile)

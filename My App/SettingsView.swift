@@ -43,7 +43,7 @@ struct SettingsView: View {
                     }
 
                     SettingsSection(title: "Appearance") {
-                        // this looks like a segmented control but isn't interactive
+                        // this looks like a segmented control but isn't interactive.
                         // dark mode's colors aren't fully adaptive yet, so rather than
                         // let someone pick System or Dark and land on a half-broken
                         // screen, only Light actually does anything right now. kept
@@ -120,7 +120,7 @@ struct SettingsView: View {
                     // cancel notifications first, before the reminders they point to are gone
                     reminderStore.reminders.forEach { NotificationManager.cancelNotification(for: $0) }
                     reminderStore.reminders = []
-                    profileStore.profile = Profile(name: "", dateOfBirth: Date(), gender: "", conditions: [])
+                    profileStore.profile = Profile(firstName: "", dateOfBirth: Date(), gender: "", conditions: [])
                 }
                 Button("Cancel", role: .cancel) { }
             }

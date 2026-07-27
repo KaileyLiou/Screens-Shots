@@ -25,7 +25,7 @@ class ProfileStore: ObservableObject {
             self.profile = decoded
         } else {
             // first launch, no profile saved yet so start empty
-            self.profile = Profile(name: "", dateOfBirth: Date(), gender: "", conditions: [])
+            self.profile = Profile(firstName: "", dateOfBirth: Date(), gender: "", conditions: [])
         }
     }
     
