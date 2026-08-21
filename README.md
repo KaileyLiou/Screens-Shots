@@ -37,6 +37,7 @@ The app is built entirely in Swift using SwiftUI for a clean and intuitive inter
 - **Full dark mode support:** Transition hardcoded colors to asset catalogs to fully support system dark mode.
 - **Accessibility:** Implement Dynamic Type so the text layout responds to the system font sizes.
 - **Cross-device support:** Sync reminders and profiles across multiple devices.
+- **Cross-platform support:** Expand the app to Android devices.
 
 ## Built With
 - Swift & SwiftUI
