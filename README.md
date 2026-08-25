@@ -1,18 +1,18 @@
 # Screens + Shots
-Screens + Shots is a health reminder app that helps users stay on top of vaccines and cancer screenings. With a simple, personalized profile, the app generates tailored recommendations and highlights the next upcoming health reminder. It is designed to make it easy for both adults and children to stay up to date with important preventive care.
+Screens + Shots is a health reminder app that helps users stay on top of vaccines and cancer screenings. With a simple and personalized profile, the app generates recommendations and highlights the next upcoming health reminder. It is designed to make it easy for both adults and children to stay up to date with important preventive care.
 
-**App Store Link:** [Download Screens + Shots](https://apps.apple.com/app/screens-shots/id6755749446)<br>
-**Keynote Pitch Deck:** [View the PDF](pitch_deck.pdf)
+**App Store link:** [Download Screens + Shots](https://apps.apple.com/app/screens-shots/id6755749446)<br>
+**Keynote pitch deck:** [View the PDF](pitch_deck.pdf)
 
 ## Technical Features
-- **Personalized recommendations:** Uses a user's age, gender, date of birth, conditions, and family history to inform tailored health guidance based on current CDC/USPSTF guidelines.
-- **Profile management:** Allows users to create, edit, or fully reset their profile data.
-- **Upcoming reminder highlights:** Easily see the next recommended vaccine or screening.
-- **Reminder dashboard:** View past and upcoming reminders, add custom ones, edit existing ones, and multi-select to delete several at once.
-- **Explanations:** Users can tap an info icon on any reminder to see a plain-language explanation of why it matters.
-- **Configurable notifications:** Choose your own daily reminder time, or turn notifications off entirely.
-- **Timely alerts:** Supports vaccinations for children and adults and cancer screenings for adults, including recurring reminders that recalculate their next real due date automatically.
-- **iPad support:** Layouts adapt so the app doesn't feel stretched on a larger screen.
+- **Personalized recommendations:** Uses a user's age, gender, date of birth, conditions, and family history to inform tailored health guidance based on current CDC/USPSTF guidelines
+- **Profile management:** Allows users to create, edit, or fully reset their profile data
+- **Upcoming reminder highlights:** Easily see the next recommended vaccine or screening
+- **Reminder dashboard:** View past and upcoming reminders, add custom ones, edit existing ones, and multi-select to delete several at once
+- **Explanations:** Users can tap an info icon on any reminder to see a plain-language explanation of why it matters
+- **Configurable notifications:** Choose your own daily reminder time, or turn notifications off entirely
+- **Timely alerts:** Supports vaccinations for children and adults and cancer screenings for adults, including recurring reminders that recalculate their next real due date automatically
+- **iPad support:** Layouts adapt so the app doesn't feel stretched on a larger screen
 
 ## Screenshots
 <p>
@@ -25,7 +25,7 @@ Screens + Shots is a health reminder app that helps users stay on top of vaccine
 </p>
 
 ## How It Works
-The app is built entirely in Swift using SwiftUI for a clean and intuitive interface. User profiles and reminders are stored locally on-device, and reminders are generated from real CDC/USPSTF guidelines and are based on the user’s personal health information. Notifications alert users when a vaccine or screening is due (at a time the user can customize in Settings), making preventive care easy to follow.
+The app is built entirely in Swift using SwiftUI for a clean interface. User profiles and reminders are stored locally on-device, and reminders are generated from real CDC/USPSTF guidelines and are based on the user’s personal health information. There are notifications that alert users when a vaccine or screening is due (at a time the user can customize in Settings).
 
 ## Challenges & Lessons Learned
 - **Matching evolving medical rules:** Mapping the code to actual CDC and USPSTF guidelines was a lot harder than expected. For example, during testing, I realized my code didn't have an upper age limit for cervical screenings. I also had to update the logic to handle individualized recommendations based on doctor-patient choice rather than strict due dates following a recent CDC update.
@@ -33,11 +33,11 @@ The app is built entirely in Swift using SwiftUI for a clean and intuitive inter
 - **Making it responsive on iPads:** I built the interface using SwiftUI, which works great for iPhones but stretches things out on iPads. I had to learn how to use responsive layout tools so the columns and spacing dynamically adapt depending on the screen size.
 
 ## Future Improvements
-- **Mark as done:** Build a state handler to let users mark reminders as completed and automatically trigger the next recurring date.
-- **Full dark mode support:** Transition hardcoded colors to asset catalogs to fully support system dark mode.
-- **Accessibility:** Implement Dynamic Type so the text layout responds to the system font sizes.
-- **Cross-device support:** Sync reminders and profiles across multiple devices.
-- **Cross-platform support:** Expand the app to Android devices.
+- **Mark as done:** Allow users to mark reminders as completed and automatically trigger the next recurring date
+- **Full dark mode support:** Transition hardcoded colors to fully support system dark mode
+- **Accessibility:** Implement Dynamic Type so the text layout responds to the system font sizes
+- **Cross-device support:** Sync reminders and profiles across multiple devices
+- **Cross-platform support:** Expand the app to Android devices
 
 ## Built With
 - Swift & SwiftUI
