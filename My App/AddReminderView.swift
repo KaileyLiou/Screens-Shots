@@ -12,8 +12,6 @@ struct AddReminderView: View {
     @EnvironmentObject private var settingsStore: SettingsStore
     @Environment(\.dismiss) var dismiss
 
-    // if this is set, the form is editing an existing reminder instead of
-    // creating a new one. nil means "new reminder" (the original behavior)
     var editingReminder: Reminder?
 
     @State private var title: String
@@ -22,9 +20,6 @@ struct AddReminderView: View {
     @State private var repeatInterval: RepeatInterval
     @FocusState private var titleFieldIsFocused: Bool
 
-    // generated recommendations handle their own recurrence by recalculating
-    // a fresh date each time they're regenerated, so the repeat picker only
-    // makes sense for reminders the user added themselves
     private var isCustomReminder: Bool {
         editingReminder?.isGenerated != true
     }
@@ -84,11 +79,6 @@ struct AddReminderView: View {
                             .background(Color(red: 0.95, green: 0.95, blue: 0.95))
                             .cornerRadius(10)
 
-                            // only shown for reminders the user added themselves —
-                            // generated recommendations already recalculate their own
-                            // next date whenever recommendations are regenerated, so
-                            // adding a second, OS-level repeat on top of that would
-                            // just create two conflicting recurrence systems
                             if isCustomReminder {
                                 VStack(alignment: .leading, spacing: 8) {
                                     Text("Repeat")
@@ -116,11 +106,7 @@ struct AddReminderView: View {
                         
                         Button(action: {
                             if let existing = editingReminder {
-                                // editing: cancel whatever was scheduled under the old date,
-                                // swap the reminder in place (keeping its original id and
-                                // isGenerated flag), then reschedule under the new details.
-                                // generated reminders keep repeatInterval .none regardless,
-                                // since the repeat picker is hidden for them anyway
+
                                 NotificationManager.cancelNotification(for: existing)
                                 let updated = Reminder(
                                     id: existing.id,
@@ -165,8 +151,7 @@ struct AddReminderView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.bottom, 30)
                     }
-                    // caps how wide the form gets on ipad's larger screen, same
-                    // pattern used on the other main screens
+                    // caps how wide the form gets on ipad's larger screen
                     .frame(maxWidth: 600)
                     .frame(maxWidth: .infinity)
                 }
@@ -185,10 +170,6 @@ struct AddReminderView: View {
                     }
                 }
             }
-            // on ipad, .sheet() defaults to a smaller floating panel instead of
-            // full screen like iphone gets automatically. forcing the large
-            // detent makes it take the full height on both instead of clipping
-            // the form's content inside a too-small panel
             .presentationDetents([.large])
         }
     }

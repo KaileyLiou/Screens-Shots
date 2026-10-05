@@ -25,8 +25,6 @@ struct AllRemindersView: View {
         var id: String { self.rawValue }
     }
 
-    // what actually shows in the list: filtered by the selected tab
-    // (upcoming/past/all), then narrowed by the search box if its being used
     var filteredReminders: [Reminder] {
         let base: [Reminder]
         switch filterSelection {
@@ -88,10 +86,6 @@ struct AllRemindersView: View {
                                     .listRowSeparator(.hidden)
                                     .contentShape(Rectangle())
                                     .onTapGesture {
-                                        // outside of multi-select mode, tapping opens the
-                                        // reminder for editing. in multi-select mode, List
-                                        // already handles the tap as a selection toggle, so
-                                        // we don't want to also open the edit sheet
                                         if editMode?.wrappedValue != .active {
                                             editingReminder = reminder
                                         }
@@ -129,10 +123,6 @@ struct AllRemindersView: View {
     }
 
     func deleteReminder(at offsets: IndexSet) {
-        // the swipe gives index positions from filteredReminders (whats on
-        // screen), not the full reminders array. if a filter/search is on
-        // those dont line up, so grab the actual objects first and remove
-        // by matching them instead of trusting the raw index
         let itemsToDelete = offsets.map { filteredReminders[$0] }
 
         itemsToDelete.forEach { NotificationManager.cancelNotification(for: $0) }
@@ -142,9 +132,6 @@ struct AllRemindersView: View {
         }
     }
 
-    // deletes everything currently checked in multi-select mode, cancels
-    // their notifications, then clears the selection and drops back out
-    // of edit mode automatically
     func deleteSelected() {
         let itemsToDelete = reminderStore.reminders.filter { selection.contains($0.id) }
 
@@ -208,9 +195,6 @@ struct ReminderCard: View {
             }
             Spacer()
 
-            // a small, separate tap target for "why does this matter" — using
-            // a real Button here (not just another onTapGesture) so it doesn't
-            // get swallowed by the row's own tap-to-edit gesture
             Button {
                 showingExplanation = true
             } label: {

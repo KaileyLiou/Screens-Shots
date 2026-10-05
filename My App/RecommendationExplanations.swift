@@ -7,17 +7,9 @@
 
 import Foundation
 
-// simple text explanation for each recommendation, written
-// once ahead of time and incorporated into the app instead of generated live by an
-// AI at runtime. a live API call would mean putting an API key inside the
-// shipped app and relying on a network call, so this is more simple and reliable
-//
-// matched by checking if a reminder's title contains one of these key
-// phrases, most specific phrases checked first
 struct RecommendationExplanations {
 
     private static let entries: [(match: String, text: String)] = [
-        // most specific/family-history ones go first
         ("Discuss Earlier Mammogram Screening", "If breast cancer runs in your family, starting mammograms earlier than the usual age of 40 is sometimes recommended. This is a conversation to have with a doctor, since the right starting age depends on details like how old your relative was at diagnosis."),
         ("Discuss Earlier Colorectal Screening", "A family history of colorectal cancer can mean starting screening earlier than the usual age of 45. Like the mammogram case, the right starting point depends on your specific family history, so this is worth a direct conversation with a doctor."),
         ("Diabetic Eye Exam", "Diabetes can damage blood vessels in the retina over time, sometimes without any noticeable symptoms at first. An annual dilated eye exam catches this early, when it's most treatable."),
@@ -61,8 +53,6 @@ struct RecommendationExplanations {
                 return entry.text
             }
         }
-        // covers anything the user typed in themselves via Add Reminder,
-        // since those aren't part of the built-in schedule
         return "This is a reminder you added yourself, so there's no built-in explanation for it."
     }
 }

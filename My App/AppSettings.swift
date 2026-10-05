@@ -8,8 +8,6 @@
 import Foundation
 import SwiftUI
 
-// the three appearance options in settings. colorScheme maps each to what
-// .preferredColorScheme expects, nil = just follow whatever the device is set to
 enum AppearanceMode: String, CaseIterable, Identifiable, Codable {
     case system = "System"
     case light = "Light"
@@ -26,8 +24,6 @@ enum AppearanceMode: String, CaseIterable, Identifiable, Codable {
     }
 }
 
-// holds everything from the settings screen and saves to UserDefaults right away
-// same pattern as ProfileStore/ReminderStore
 class SettingsStore: ObservableObject {
     @Published var notificationHour: Int {
         didSet { UserDefaults.standard.set(notificationHour, forKey: "notification_hour") }
@@ -42,7 +38,6 @@ class SettingsStore: ObservableObject {
         didSet { UserDefaults.standard.set(appearanceMode.rawValue, forKey: "appearance_mode") }
     }
 
-    // DatePicker needs an actual date to bind to but the rest of the app just uses hour/minute ints
     var notificationTime: Date {
         get {
             Calendar.current.date(bySettingHour: notificationHour, minute: notificationMinute, second: 0, of: Date()) ?? Date()

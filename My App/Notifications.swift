@@ -8,13 +8,8 @@
 import Foundation
 import UserNotifications
 
-// schedules + cancels local notifications for reminders. uses the reminder's
-// own uuid as the notification's request id, so a reminder always maps to
-// exactly one notification and can be cancelled later just by that id
 struct NotificationManager {
 
-    // hour/minute default to 9am so old calls that don't pass a time still
-    // work the same way they did before settings existed
     static func scheduleNotification(for reminder: Reminder, hour: Int = 9, minute: Int = 0, enabled: Bool = true) {
         guard enabled else {
             print("Notifications disabled in settings; skipping schedule for \(reminder.title)")
@@ -27,8 +22,6 @@ struct NotificationManager {
                 schedule(reminder, hour: hour, minute: minute)
 
             case .notDetermined:
-                // first time a reminder is actually being created, ask now instead
-                // of asking on launch before the user's even seen the app
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
                     if granted {
                         schedule(reminder, hour: hour, minute: minute)
@@ -38,7 +31,6 @@ struct NotificationManager {
                 }
 
             default:
-                // denied or restricted, nothing we can do here besides not schedule
                 print("Notifications not allowed")
             }
         }
@@ -54,11 +46,6 @@ struct NotificationManager {
         var dateComponents = DateComponents()
         dateComponents.hour = hour
         dateComponents.minute = minute
-
-        // which date parts get matched (and whether it repeats) depends on
-        // the interval: leaving out year/month/day components is what makes
-        // UNCalendarNotificationTrigger repeat on its own, apple handles the
-        // actual recurrence once we tell it which parts to match
         let repeats: Bool
         switch reminder.repeatInterval {
         case .none:
@@ -80,11 +67,6 @@ struct NotificationManager {
 
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: repeats)
 
-//            let trigger = UNTimeIntervalNotificationTrigger(
-//                timeInterval: 5, // appears in 5 seconds for testing purposes
-//                repeats: false
-//            )
-
         let request = UNNotificationRequest(
             identifier: reminder.id.uuidString,
             content: content,
@@ -100,8 +82,6 @@ struct NotificationManager {
         }
     }
 
-    // called when a reminder gets deleted so its notification doesn't fire
-    // for something that doesn't exist anymore
     static func cancelNotification(for reminder: Reminder) {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [reminder.id.uuidString])
     }

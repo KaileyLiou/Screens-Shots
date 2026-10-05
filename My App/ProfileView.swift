@@ -20,7 +20,6 @@ struct ProfileView: View {
     @State private var familyHistory: String = ""
 
     var canSave: Bool {
-        // only first name is required, last name is optional
         !firstName.trimmingCharacters(in: .whitespaces).isEmpty &&
         dateOfBirth <= Date()
     }
@@ -44,7 +43,6 @@ struct ProfileView: View {
                             .cornerRadius(10)
                             .shadow(color: .black.opacity(0.05), radius: 3, x: 0, y: 2)
 
-                        // optional on purpose, not required to save the profile
                         TextField("Last Name (optional)", text: $lastName)
                             .padding()
                             .background(Color.white)
@@ -150,8 +148,6 @@ struct ProfileView: View {
 
                 }
                 .padding()
-                // same width cap as the dashboard, keeps the form from stretching
-                // uncomfortably wide on ipad
                 .frame(maxWidth: 600)
                 .frame(maxWidth: .infinity)
             }
@@ -171,7 +167,6 @@ struct ProfileView: View {
                 conditions = profile.conditions
                 familyHistory = profile.familyHistory
             }
-            // same ipad sheet-sizing fix as AddReminderView
             .presentationDetents([.large])
         }
     }

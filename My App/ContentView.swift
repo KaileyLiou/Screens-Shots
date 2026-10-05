@@ -29,8 +29,6 @@ struct ContentView: View {
         reminderStore.reminders.filter { $0.date.isTodayOrLater() }.count
     }
 
-    // used for the small summary line on the dashboard, just a count from
-    // the real reminder data
     var next30DaysCount: Int {
         let calendar = Calendar.current
         guard let thirtyDaysOut = calendar.date(byAdding: .day, value: 30, to: Date()) else { return 0 }
@@ -45,8 +43,6 @@ struct ContentView: View {
                 
                 ScrollView {
                     VStack(spacing: 25) {
-                        // buttons get their own row above the title now, instead of layering on top of it
-                        // overlap happened because the title text renders at its natural width regardless of padding, so sharing the same line was never going to work
                         HStack {
                             Spacer()
                             Button {
@@ -75,8 +71,6 @@ struct ContentView: View {
                             .buttonStyle(PressableButtonStyle())
                             .accessibilityLabel("Settings")
                         }
-                        // same .padding(.horizontal) the dashboard cards use below, so the
-                        // settings button's right edge lines up with the cards' right edge
                         .padding(.horizontal)
                         .padding(.top, 12)
 
@@ -131,12 +125,6 @@ struct ContentView: View {
                                     showProfileAlert = true
                                 } else {
                                     let newReminders = VaccineRecommendations.recommendedReminders(for: profileStore.profile)
-
-                                    // clear out the old auto-generated ones first, so editing the
-                                    // profile (age, gender, conditions, etc) and regenerating fully
-                                    // replaces the old recommendations instead of piling new ones
-                                    // on top of stale ones. anything the user added by hand via
-                                    // add reminder has isGenerated == false, so it's never touched
                                     let staleGenerated = reminderStore.reminders.filter { $0.isGenerated }
                                     staleGenerated.forEach { NotificationManager.cancelNotification(for: $0) }
                                     reminderStore.reminders.removeAll { $0.isGenerated }
@@ -208,10 +196,6 @@ struct ContentView: View {
                             .multilineTextAlignment(.center)
                             .padding(.bottom, 40)
                     }
-                    // caps how wide the dashboard content gets and centers it, so on an
-                    // ipad's much wider screen the cards stay a comfortable reading width
-                    // instead of stretching all the way across. on iphone this has no
-                    // effect since the screen is already narrower than the cap
                     .frame(maxWidth: 600)
                     .frame(maxWidth: .infinity)
                 }
@@ -276,10 +260,6 @@ struct DashboardCard: View {
     }
 }
 
-// button shrinks and dims very slightly while held down,
-// springs back on release. used on the tappable dashboard cards and the
-// settings/profile icon buttons so tapping something actually feels
-// responsive instead of static
 struct PressableButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
